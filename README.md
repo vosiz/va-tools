@@ -2,12 +2,16 @@
 PHP tools to ease work
 
 ## Contains
- - structure - node hierarchy class
+### Parser
+- URL parser
+### Structure
+- node hierarchy class
+
 
 ## Plan/roadmap
 What is the plan?
 - [ ] - db - database
-- [ ] - parser - URL parser
+- [x] - parser - URL parser
 - [x] - structure - node hierarchy
 - [ ] - format - simple XML builder
 - [ ] - format - simple HTML builder 
@@ -17,11 +21,43 @@ None taken
 
 ## Installation
 ### Composer
+Install with
 ```
 composer install vosiz/va-tools
 ```
 
+Update with (dependencies/required)
+```
+composer update
+```
+
 ## TOOLS - how to use them?
+### Parser - URL parser
+Parses URL to user defined structure
+
+Include classes, something like this:
+```php
+use VaTools\Url\UrlStructure as UrlStruct;
+use VaTools\Url\UrlParser as Parser;
+```
+
+Then you need to define structure model you want to use, like this:
+```php
+// asuming structure www.myurl.com/<controller>/<action>?par=value... or something similar
+// somethng like: wwww.myurl.com/user/profile/$userid=123...
+$struct = UrlStruct::Create('www.myurl.com', ['controller', 'action']);
+```
+
+Pass it to a parser
+```php
+$parser = new Parser($struct);
+```
+
+Access parts you need
+```php
+$parser->GetPartByKey('action');
+```
+
 ### Structure - Node hierarchy
 Basically it is a node structure (tree, graph,...).
 

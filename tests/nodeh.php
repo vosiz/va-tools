@@ -1,8 +1,6 @@
 <?php
 
 require_once(__DIR__.'/../src/struct/nodeh.php');
-use \VaTools\Structure\NodeHierarchy as Nodeh;
-
 
 // TEST
 // - 00
