@@ -6,6 +6,7 @@ PHP tools to ease work
 - URL parser
 ### Structure
 - node hierarchy class
+- flag system classes
 
 
 ## Plan/roadmap
@@ -13,6 +14,7 @@ What is the plan?
 - [ ] - db - database
 - [x] - parser - URL parser
 - [x] - structure - node hierarchy
+- [x] - structure - flags (flag system)
 - [ ] - format - simple XML builder
 - [ ] - format - simple HTML builder 
 
@@ -101,4 +103,165 @@ If needed to traverse node mesh (in-depth):
         $node = $node->Next(); // step deeper or continue, NULL is end
     }
     while($node);
+```
+
+### Structure - Flag system
+It is a flag system suitable for configuration f.e. Instead of keeping distinct variables in class, you can you instance of this to keep it.
+It is more databse friendly as it works with integers, but for logic returns booleans.
+
+Lets see how it works.
+
+Include flagword to your project:
+```php
+use \VaTools\Structure\Flagword as Fword;
+```
+
+Or just the flag if you want to use it more traditionaly (enchanced bools basically):
+```php
+use \VaTools\Structure\Flag as Flag
+```
+> [!NOTE]
+> Flagword works with Flag
+
+Flag has a simple interface, it works basically like boolean does, but it resolves "int vs bool" potencial issue, so you do not need to wory about having different logical values in configuration value.
+
+```php
+class MyClassWithSimpleConfig {
+
+    private $ConfigFlag;    // good old way
+    private $NewConfigFlag; // Flag system
+
+    public function OldConfig($value) {
+
+        // check if int or bool
+        ...
+
+        $this->ConfigFlag = $processed_value;
+    }
+
+    public function NewConfig($value) {
+
+        $this->NewConfigFlag = new Flag(); // flag is unset ( 0 / false)
+
+    	// in case you want to set flag 
+        $this->NewConfigFlag = new Flag(true);  // = 1
+
+        // -- OR -- 
+        $this->NewConfigFlag = new Flag();  // = 0
+        $this->NewConfigFlag->Set();        // = 1
+    }
+}
+```
+
+Assuming you have getter for $NewConfigFlag field - you can manipulate with flag as you want.
+
+```php
+$flag = $myclass->GetConfig(); // returns $NewConfigFlag (example)
+
+// read flag value
+$flag->IsSet(); // always bool
+
+// set new value
+$flag->Set($value); // default is 1
+
+// unset flag
+$flag->Unset(); // always 0
+
+// toggle (switch)
+$flag->Toggle(); // switching values
+
+```
+
+If you want to work with your variable as flag, simply convert it.
+
+```php
+$b = false;
+$i = 1;
+
+$flag1 = Flag::ToFlag($b);
+$flag2 = Flag::ToFlag($i);
+
+```
+
+Flagword is basically structure with Flags in it. Lets create one or two.
+```php
+class MyClassWithMoreConfig {
+
+    private $ConfigurationGeneral;
+    private $ConfigurationSpecifics;
+    ...
+
+    public function __construct() {
+
+        $this->ConfigurationGeneral(2);     // I know i do not need more than 16 flags (2 bytes)
+        $this->ConfigurationSpecifics(5);   // I know i do not need more than 40 flags (5 bytes)
+        ...
+    }
+}
+```
+
+> [!NOTE]
+> Flag system is designed to be lightweight so it will only take as much space is needed - detecting your architecture (32/64) and setup structure to be minimalistic.
+
+Lets asume we have getters to configs.
+
+```php
+$general = $myclass->GetConfig('general'); // or somthing like that
+$specs = $myclass->GetConfig('specifics'); // or somthing like that
+```
+
+Now there are 2 ways to work with Flagword.
+1. As capsule for Flags
+2. Smart-capsule for Flags
+
+In first case, the work is very similar to work with Flag(s).
+Lets setup some general configuration.
+
+```php
+$general->SetFlag(4);           // config of index 4 is set (default)
+$general->SetFlag(5, 1);        // config of index 5 is set
+$general->SetFlag(8, 0);        // config of index 8 is unset
+$general->SetFlag(9, $conf9);   // config of index 9 is set whatever value is stored in $conf9
+...
+// all others are set to 0 automatically
+```
+
+Now you can read them.
+```php
+$flag8 = $general->ByIndex(8); // returns Flag of index 8
+$gcfg8 = $flag8->Isset();
+```
+
+Second way is to use built-in functions. Lets use specifics and lets asume we have to define certain specifics to check later.
+I our little scenario lets asume we have defined constants of indeces.
+
+```php
+$system = 0; // 0x00 - system flags in first 2 bytes
+$admin = 16; // 0x10 - admin flags after second byte
+...
+
+$system_ready   = $system + 0;      // 0x00
+$system_online  = $system + 5;      // 0x05
+...
+
+$admin_logged   = $admin + 1;       // 0x11
+...
+
+// want to name and register our mandatory flags
+$specs->RegisterFlag($system_ready, 'System-ready');
+$specs->RegisterFlag($admin_logged, 'Admin-loggd'); // typo
+$specs->RegisterFlag($system_online, 'System-online');
+...
+
+// we later in system found typo (or whatever reason to rename it)
+$specs->RegisterFlag($admin_logged, 'Admin-logged');
+```
+
+Now we can check if every mandatory flag was set in system if we want to. For example all mandatory checks were done, ready to fly boss.
+```php
+if($specs->IsAllSet()) {
+
+    // all set, move on...
+    ...
+}
 ```

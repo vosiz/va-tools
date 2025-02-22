@@ -18,6 +18,16 @@ class Flag {
     private $Key;       public function GetKey()    { return $this->Key; }          public function SetKey($key)    { $this->Key = $key; }
 
     /**
+     * Constructor
+     * @param bool $setflag is initial value 1?
+     */
+    public function __construct(bool $setflag = false) {
+
+        if($setflag)
+            $this->Set();
+    }
+
+    /**
      * Set flag
      * @param int $value value to set flag to
      */
