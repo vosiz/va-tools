@@ -1,7 +1,7 @@
 <?php
 
-use VaTools\Url\UrlStructure as UrlStruct;
-use VaTools\Url\UrlParser as Parser;
+use Vosiz\VaTools\Url\UrlStructure as UrlStruct;
+use Vosiz\VaTools\Url\UrlParser as Parser;
 
 function TestUrlParser_Structure() {
 

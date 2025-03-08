@@ -1,12 +1,12 @@
 {
     "name": "vosiz/va-tools",
-    "description": "PHP tools",
+    "description": "PHP tools (from Varaible Arts)",
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "VaTools\\": "src/"
+            "Vosiz\\VaTools\\": "src/"
         }
     },
     "require": {

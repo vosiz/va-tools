@@ -1,6 +1,6 @@
 <?php
 
-namespace VaTools\Structure;
+namespace Vosiz\VaTools\Structure;
 
 class NodeHierarchyException extends \Exception {
 

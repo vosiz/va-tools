@@ -1,6 +1,6 @@
 <?php
 
-use \VaTools\Structure\Flagword as Fword;
+use Vosiz\VaTools\Structure\Flagword as Fword;
 
 function TestFlags_Size() {
 

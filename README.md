@@ -1,6 +1,9 @@
 # va-tools
 PHP tools to ease work
 
+## Important notes
+Used namespace: Vosiz\VaTools\particular-part
+
 ## Contains
 ### Parser
 - URL parser
@@ -39,8 +42,8 @@ Parses URL to user defined structure
 
 Include classes, something like this:
 ```php
-use VaTools\Url\UrlStructure as UrlStruct;
-use VaTools\Url\UrlParser as Parser;
+use Vosiz\VaTools\Url\UrlStructure as UrlStruct;
+use Vosiz\VaTools\Url\UrlParser as Parser;
 ```
 
 Then you need to define structure model you want to use, like this:
@@ -67,7 +70,7 @@ Lets setup this.
 
 Include it to your project with desired method and use it f.e. like this:
 ```php
-use \VaTools\Structure\NodeHierarchy as Nodeh;
+use Vosiz\VaTools\Structure\NodeHierarchy as Nodeh;
 ```
 
 Setup root node:
@@ -113,12 +116,12 @@ Lets see how it works.
 
 Include flagword to your project:
 ```php
-use \VaTools\Structure\Flagword as Fword;
+use Vosiz\VaTools\Structure\Flagword as Fword;
 ```
 
 Or just the flag if you want to use it more traditionaly (enchanced bools basically):
 ```php
-use \VaTools\Structure\Flag as Flag
+use Vosiz\VaTools\Structure\Flag as Flag
 ```
 > [!NOTE]
 > Flagword works with Flag

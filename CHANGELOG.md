@@ -1,9 +1,13 @@
 # Change log
 ## Current version
-### 1.0.2
-- new Tool.Structure - flag word (flags)
+### 1.1.0 - URL parser
+- URL parser tested
+- changed namespacing
 
 ## History
+### 1.0.2 - Flagword
+- new Tool.Structure - flag word (flags)
+
 ### 1.0.1 - More tools
 - new Tool.Parser - URL parser; basics and tests
 

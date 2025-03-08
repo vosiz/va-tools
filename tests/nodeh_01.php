@@ -1,6 +1,6 @@
 <?php
 
-use \VaTools\Structure\NodeHierarchy as Nodeh;
+use Vosiz\VaTools\Structure\NodeHierarchy as Nodeh;
 
 function TestNodeh_Property() {
 
