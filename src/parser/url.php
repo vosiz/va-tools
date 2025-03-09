@@ -1,6 +1,6 @@
 <?php
 
-namespace Vosiz\VaTools\Url;
+namespace Vosiz\VaTools\Parser;
 
 class UrlStructure {
 

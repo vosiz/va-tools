@@ -9,6 +9,11 @@
             "Vosiz\\VaTools\\": "src/"
         }
     },
+    "files": [
+        "src/parser/url.php",
+        "src/struct/flag.php",
+        "src/struct/nodeh.php"
+    ],
     "require": {
         "php": ">=7.4",
         "vosiz/php-utils": ">=1.1.2"

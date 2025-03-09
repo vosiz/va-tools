@@ -1,10 +1,13 @@
 # Change log
 ## Current version
+### 1.2.0 - Autoloading
+- loading crucial functions
+
+## History
 ### 1.1.0 - URL parser
 - URL parser tested
 - changed namespacing
 
-## History
 ### 1.0.2 - Flagword
 - new Tool.Structure - flag word (flags)
 
