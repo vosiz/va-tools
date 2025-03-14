@@ -1,9 +1,12 @@
 # Change log
 ## Current version
-### 1.2.0 - Autoloading
+### 1.3.0 - Filtration
 - loading crucial functions
 
 ## History
+### 1.2.0 - Autoloading
+- loading crucial functions
+
 ### 1.1.0 - URL parser
 - URL parser tested
 - changed namespacing

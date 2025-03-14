@@ -10,7 +10,8 @@ Used namespace: Vosiz\VaTools\particular-part
 ### Structure
 - node hierarchy class
 - flag system classes
-
+### Filter
+- data filtration classes
 
 ## Plan/roadmap
 What is the plan?
@@ -20,6 +21,8 @@ What is the plan?
 - [x] - structure - flags (flag system)
 - [ ] - format - simple XML builder
 - [ ] - format - simple HTML builder 
+- [x] - filter - basic filter
+- [x] - filter - string filtration
 
 ## Bug report
 None taken
@@ -268,3 +271,62 @@ if($specs->IsAllSet()) {
     ...
 }
 ```
+
+### Data filtration - string
+Simple filtration class which can be used to filter collection of data - in this case strings.
+
+Lets assume we want to know if "MyNamespace" is correctly included (visible in list of defined classes list - something like "MyNamespace\MyClass").
+
+Start with creating instance:
+
+```php
+$data = classlist(); // in this example gets a class list - defined in [Link package](https://packagist.org/packages/vosiz/php-utils)
+$filter = new StringFilter($data);
+```
+
+This step is optional and depends on situation, but class list will surely contains something like "MyNamspace\...\MyClass" or in this case lets assume "MyNamspace\MyClass" in short.
+
+If we want to use full-string name, thats ok. Maybe we are having multipleclasses (like MyClass2 etc...). 
+In this case we want to split each entry of list to reference full-string.
+
+This is done simply by calling Split method.
+
+```php
+$filter->Split("\\"); // in this case escaped "\"
+```
+
+Now we have 2 references to original data.
+"MyNamespace"   => "MyNamspace\MyClass"
+"MyClass"       => "MyNamspace\MyClass"
+
+Now simply create a query with params and call filtration. Query is composed of command (string name of method or alias) and (if needed) parameters.
+
+In our scenario we need to filter "our" classes, so lets filter it by "MyNamespace" to get all items from original list, which contains "MyNamespace" string.
+
+```php
+// we used Split before
+$filter->Filter(['contains' => 'MyNamespace']);
+
+// we did not used Split, we want precise item
+$filter->Filter(['contains' => 'MyNamspace\\MyClass']);
+```
+
+> [!NOTE]
+> Filtration is made in cascades. So you can filter filtered data simply by calling another Filter().
+
+> [!TIP]
+> You can reset filter anytime (to work on same dataset) with calling ResetFilter().
+
+Now we can receive filtered dataset.
+
+```php
+// gets filtered data
+$fdata = $filter->GetFiltered();
+
+// just print it (before filtration)
+$filter->PrintAll();
+
+// just print it (after filtration)
+$filter->PrintFiltered();
+```
+
