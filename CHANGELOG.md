@@ -1,9 +1,13 @@
 # Change log
 ## Current version
+### 1.3.1 - Parser fix
+- parts fix
+- exceptions
+
+## History
 ### 1.3.0 - Filtration
 - loading crucial functions
 
-## History
 ### 1.2.0 - Autoloading
 - loading crucial functions
 

@@ -15,4 +15,13 @@ function TestBasics() {
 
     $test = TestUrlParser_GetPars();
     var_dump($test);
+
+    $test = TestUrlParser_NoKeys();
+    var_dump($test);
+
+    $test = TestUrlParser_GetNonExisting();
+    var_dump($test);
+
+    $test = TestUrlParser_TooShort();
+    var_dump($test);
 }

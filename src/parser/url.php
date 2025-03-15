@@ -2,6 +2,8 @@
 
 namespace Vosiz\VaTools\Parser;
 
+require_once(__DIR__.'/exc.php');
+
 class UrlStructure {
 
     public $Ignore;
@@ -79,7 +81,7 @@ class UrlParser {
             
         } catch(\Exception $exc) {
 
-            throw $exc;
+            throw new UrlParserException($exc->getMessage());
         }
 
     }
@@ -89,11 +91,19 @@ class UrlParser {
      * Get part by key
      * @param string $key key
      * @return string desired url part
+     * @throws Exception
      */
     public function GetPartByKey(string $key) {
 
-        return getifset($this->Parts[$key]);
-    }
+        try {
 
+            return setifnset($this->Parts, $key, '');
+
+        } catch(\Exception $exc) {
+
+            throw new UrlParserException($exc->getMessage());
+        }
+        
+    }
 
 }
