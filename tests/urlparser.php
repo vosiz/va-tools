@@ -25,3 +25,18 @@ function TestBasics() {
     $test = TestUrlParser_TooShort();
     var_dump($test);
 }
+
+// FIX
+// - 01
+require_once(__DIR__.'/urlparser_01.php');
+function Fix1() {
+
+    $fix = Fix1_Urlparser_Localhost();
+    var_dump($fix);
+
+    $fix = Fix1_Urlparser_LocalAddress();
+    var_dump($fix);
+
+    $fix = Fix1_Urlparser_Empty();
+    var_dump($fix);
+}
