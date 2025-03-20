@@ -24,7 +24,7 @@ class UrlStructure {
 
         if(strlen($ignore) > 0) {
 
-            $this->Ignore = sprintf('%s%s%s', '/', $this->Ignore, '/');
+            $this->Ignore = sprintf('%s%s', $this->Ignore, '/');
         }
     }
 
@@ -56,12 +56,12 @@ class UrlParser {
     
         try {
 
-            $this->FullUrl = $_SERVER['REQUEST_URI'];
+            $this->FullUrl = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
             $this->FullWithIgnored = $this->FullUrl;
-            if (strpos($this->FullUrl, $struct->Ignore) === 0) {
+            if (strlen($struct->Ignore) > 0 && strpos($this->FullUrl, $struct->Ignore) === 0) {
                 $this->FullWithIgnored  = substr($this->FullUrl, strlen($struct->Ignore));
-            }           
+            }      
 
             $parts = explode('/', $this->FullWithIgnored);
             $this->Parts = array();

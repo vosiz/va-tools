@@ -1,10 +1,14 @@
 # Change log
 ## Current version
+### 1.3.2 - Parser fix prefixes
+- localhost fix
+- no leading "slash"
+
+## History
 ### 1.3.1 - Parser fix
 - parts fix
 - exceptions
 
-## History
 ### 1.3.0 - Filtration
 - loading crucial functions
 
