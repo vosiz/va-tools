@@ -25,7 +25,8 @@ What is the plan?
 - [x] - filter - string filtration
 
 ## Bug report
-- [ ] #1 (parsing localhost)
+Everything ok
+- [x] #1 (parsing localhost)
 
 ## Installation
 ### Composer
