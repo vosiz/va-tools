@@ -281,9 +281,11 @@ Lets assume we want to know if "MyNamespace" is correctly included (visible in l
 Start with creating instance:
 
 ```php
-$data = classlist(); // in this example gets a class list - defined in [Link package](https://packagist.org/packages/vosiz/php-utils)
+$data = classlist(); // in this example gets a class list
 $filter = new StringFilter($data);
 ```
+> [!TIP]
+> classlist is function defined in in [Link package](https://packagist.org/packages/vosiz/php-utils)
 
 This step is optional and depends on situation, but class list will surely contains something like "MyNamspace\...\MyClass" or in this case lets assume "MyNamspace\MyClass" in short.
 
