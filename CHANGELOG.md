@@ -1,10 +1,16 @@
 # Change log
 ## Current version
+### 1.4.0 - DB connection and processing
+- credentials
+- db connection
+- db querybuilder (CRUD)
+- db exception
+
+## History
 ### 1.3.2 - Parser fix prefixes
 - localhost fix
 - no leading "slash"
 
-## History
 ### 1.3.1 - Parser fix
 - parts fix
 - exceptions
