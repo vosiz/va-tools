@@ -2,20 +2,26 @@
 PHP tools to ease work
 
 ## Important notes
-Used namespace: Vosiz\VaTools\particular-part
+Used namespace: Vosiz\VaTools\"particular-part"
 
 ## Contains
 ### Parser
 - URL parser
 ### Structure
+- credentials class
 - node hierarchy class
 - flag system classes
 ### Filter
 - data filtration classes
+### Database
+- database connection
+- database config
+- database query builder
 
 ## Plan/roadmap
 What is the plan?
-- [ ] - db - database
+- [x] - db - database (connection, config + CRUD)
+- [ ] - db - advanced (limit, sort, joins)
 - [x] - parser - URL parser
 - [x] - structure - node hierarchy
 - [x] - structure - flags (flag system)
@@ -26,7 +32,7 @@ What is the plan?
 
 ## Bug report
 Everything ok
-- [x] #1 (parsing localhost)
+None (all solved)
 
 ## Installation
 ### Composer
@@ -273,6 +279,24 @@ if($specs->IsAllSet()) {
 }
 ```
 
+### Structure - Credentials
+Simple login-like credential class.
+Stores username and password.
+
+You can try to check if user is authorized like this:
+
+```php
+$cr = new Credentials('user', '1234');
+$authorized = $cr->Auth('user', '3215'); // do with the returned bool as you please
+```
+
+If you are afraid of password leak, via GetPassword() method, you can create password protected with placeholder.
+```php
+$cr = new Credentials('user', '1234', true);
+$pass = $cr->GetPassword(); // will end up with "*****" like something, does not have effect on authorization
+```
+
+
 ### Data filtration - string
 Simple filtration class which can be used to filter collection of data - in this case strings.
 
@@ -332,4 +356,75 @@ $filter->PrintAll();
 // just print it (after filtration)
 $filter->PrintFiltered();
 ```
+### Database - connection and query building
+To connect to database you need 3 things:
+- connection string
+- username
+- password (can be empty)
 
+Here is example hw to connect:
+
+```php
+// you can have connection info defined like this
+define('DB_CONNECT_STRING', "mysql:host=localhost;dbname=test_db");
+define('DB_CONNECT_USER', 'root');
+define('DB_CONNECT_PASS', '');
+
+// crete configuration
+$conconf = new DbConnectionConfig(DB_CONNECT_STRING, new Credentials(DB_CONNECT_USER, DB_CONNECT_PASS));
+$conconf->AddAttr(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+// instantiate
+$db = new DbConnection($conconf);
+```
+
+Lest CRUD this thing, starting with READ.
+You need to provide table name and selection information if needed.
+
+```php
+// simply select all data from table
+return $db->Query($table)->Select()->Execute();
+```
+
+```php
+// lets use simple where clause (for every ? use [value1,...]
+return $db->Query($table_users)->Where('id = ?', [1])->Select(['name'])->Execute();
+```
+
+```php
+// more advanced but still primitive usage of where
+// AND
+return $db->Query($table)->Where('id = ?', [1])->AndWhere('id = ?', [1])->Select(['id'])->Execute();
+// OR
+return $db->Query($table)->Where('id = ?', [1])->OrWhere('id = ?', [2])->Select(['id'])->Execute();
+```
+
+> [!WARNING]
+> Be sure to use Where before AndWhere or OrWhere
+
+Now lets INSERT something
+
+```php
+// returns true if success
+return $db->Query($table)->Insert([
+    'book_name' => 'Chronicles of MissX',
+    'book_author' => 'MisterX'
+])->Execute();
+```
+
+Ok lets UPDATE that last entry
+
+```php
+// returns true if success
+$db->Query($table)->Update([
+    'book_name' => 'Chronicles of MasterX',
+    'book_author' => 'MissX'
+])->Where('book_name = ?', ['Chronicles of MissX'])->Execute();
+```
+
+Ok lets delete it. Like real delete it.
+
+```php
+// returns true if success
+$query = $db->Query($table)->Where('book_author = ?', ['MissX'])->Delete()->Execute();
+```
