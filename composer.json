@@ -12,12 +12,13 @@
             "src/filter/strfilter.php",
             "src/parser/url.php",
             "src/struct/flag.php",
-            "src/struct/nodeh.php"
+            "src/struct/nodeh.php",
+            "src/shorty.php"
         ]
     },
     "require": {
         "php": ">=7.4",
-        "vosiz/php-utils": ">=1.3.4",
+        "vosiz/php-utils": ">=1.4.4",
         "vosiz/php-enum": ">=2.2.0"
     }
 }

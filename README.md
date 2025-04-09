@@ -13,6 +13,9 @@ Used namespace: Vosiz\VaTools\"particular-part"
 - flag system classes
 ### Filter
 - data filtration classes
+### Debug
+- broswer dumper
+- recursion detection
 ### Database
 - database connection
 - database config
@@ -29,6 +32,11 @@ What is the plan?
 - [ ] - format - simple HTML builder 
 - [x] - filter - basic filter
 - [x] - filter - string filtration
+- [x] - debugger - basic class with dumper (broswer dump + recursion detection)
+- [ ] - debugger - more dumper variants
+- [ ] - logger - basics
+- [ ] - logger - file dump
+- [ ] - logger - database logging
 
 ## Bug report
 Everything ok
@@ -378,7 +386,7 @@ $conconf->AddAttr(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 $db = new DbConnection($conconf);
 ```
 
-Lest CRUD this thing, starting with READ.
+Lets CRUD this thing, starting with READ.
 You need to provide table name and selection information if needed.
 
 ```php
@@ -427,4 +435,52 @@ Ok lets delete it. Like real delete it.
 ```php
 // returns true if success
 $query = $db->Query($table)->Where('book_author = ?', ['MissX'])->Delete()->Execute();
+```
+
+### Debugger
+You can debug in style of var_dumping with more control.
+
+First include master class, something like this:
+
+```php
+use \Vosiz\VaTools\Debug\Debugger as Debug;
+```
+
+Now you can dump basic things (scalar, array, objects,...)
+
+> [!TIP]
+> Support some objects from package Vosiz/Utils [Link package](https://packagist.org/packages/vosiz/php-utils)
+
+Now you can dump variables to broswer output.
+
+Debug::Dump($var);
+
+> [!TIP]
+> Include "shorty" and you can you alias "debug"
+
+```php
+debug(1);
+debug(1.2);
+debug(true);
+debug('†');
+debug("string");
+debug(NULL);
+debug(1, 5, "str");¨
+
+class MyClass {
+
+    public      $PublicVar = "this is public";
+    protected   $ProtectedVar = "this is protected";
+    private     $PrivateVar = "this is private";
+}
+
+debug(new MyClass());
+debug([1, 2, 3 => 'QWE'])
+```
+
+-- or basic use --
+
+```php
+    $var = 1; // anything you want
+    Debug::Dump($var);
 ```
