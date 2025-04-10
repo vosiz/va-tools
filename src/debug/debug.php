@@ -21,8 +21,17 @@ class Debugger extends \Singleton {
 
         foreach($args as $a) {
 
+            self::$Dumper->Backtrace(0);
             self::$Dumper->DumpItem($a);
         }
+    }
+
+    /**
+     * Dumps to formatted string
+     */
+    public static function Dumpf(string $fmt, ...$args) {
+
+        self::Dump(sprintf($fmt, ...$args));
     }
 
     /**

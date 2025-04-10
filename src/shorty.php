@@ -11,4 +11,9 @@ if (!function_exists('debug')) {
         return \Vosiz\VaTools\Debug\Debugger::Dump(...$args);
     }
 
+    function debugf(string $fmt, ...$args) {
+
+        return \Vosiz\VaTools\Debug\Debugger::Dumpf($fmt, ...$args);
+    }
+
 }
