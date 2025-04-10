@@ -33,6 +33,7 @@ What is the plan?
 - [x] - filter - basic filter
 - [x] - filter - string filtration
 - [x] - debugger - basic class with dumper (broswer dump + recursion detection)
+- [ ] - debugger - backtrace
 - [ ] - debugger - more dumper variants
 - [ ] - logger - basics
 - [ ] - logger - file dump
