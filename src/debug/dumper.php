@@ -97,6 +97,7 @@ class Dumper extends \Singleton {
      */
     public function DumpItem($var, int $level = 0, $parent = NULL) {
 
+        // recursion
         $hash = self::ToHash($var);
         if($hash !== NULL) {
 
@@ -107,8 +108,7 @@ class Dumper extends \Singleton {
 
             Debugger::AddSeen($hash);
         }
-            
-
+        
         // check type
         if(is_array($var)) { // array
 
@@ -131,6 +131,21 @@ class Dumper extends \Singleton {
             $this->DumpScalar($var, $level, $parent);
         }
 
+    }
+
+    /**
+     * Renders backtracing
+     */
+    public function Backtrace($ignore_to_level = 0) {
+
+        $backtrace = debug_backtrace();
+        $this->Render("Call stack");
+
+        foreach ($backtrace as $index => $trace) {
+            if ($index <= $ignore_to_level) 
+                continue; // ignore debug function
+            $this->Render(sprintf("- [%s] %s(...) line %s in %s", $index - 1, $trace['function'], $trace['line'], $trace['file']));
+        }
     }
 
 

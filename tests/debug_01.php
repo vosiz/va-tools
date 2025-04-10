@@ -32,3 +32,17 @@ function TestDebug_DumpAdvRecursion() {
     $last::$Last = $last;
     Debug::Dump($last);
 }
+
+function TestDebug_DumpAdvFormatted() {
+
+    Debug::Dumpf("number: %d; string %s", 1, "stringy hello world");
+}
+
+function TestDebug_DumpAdvBacktrace() {
+
+    $var = sprintf("number: %d; string %s", 1, "stringy hello world");
+    Debug::Dumpf("number: %d; string %s", 1, "stringy hello world");
+    Debug::Dump($var);
+    debug($var);
+    debugf("number: %d; string %s", 1, "stringy hello world");
+}

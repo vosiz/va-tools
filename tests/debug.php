@@ -26,4 +26,8 @@ function TestDebugDumpingAdv() {
     TestDebug_DumpAdvCollection();
 
     TestDebug_DumpAdvRecursion();
+    
+    TestDebug_DumpAdvFormatted();
+    
+    TestDebug_DumpAdvBacktrace();
 }
