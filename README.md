@@ -39,8 +39,8 @@ What is the plan?
 - [ ] - logger - file dump
 - [ ] - logger - database logging
 - [x] - shortcuts - shorties/aliases
-- [ ] - general - signal
-- [ ] - general - retval (return value control)
+- [x] - general - signal
+- [x] - general - retval (return value control)
 
 ## Bug report
 Everything ok
