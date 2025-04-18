@@ -1,10 +1,14 @@
 # Change log
 ## Current version
+### 1.6.0 - Retvals
+- retval
+- signal
+
+## History
 ### 1.5.1 - Debugger ext
 - backtracing
 - formatted string dump
 
-## History
 ### 1.5.0 - Basic debugger
 - debugger - basic dumper
 - shorties - aliases
