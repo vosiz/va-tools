@@ -22,4 +22,7 @@ function TestBasics() {
 
     $all = TestRetval_CreateSpecifics();
     var_dump($all);
+
+    $all = TestRetval_CreateSpecificsLiteral();
+    var_dump($all);
 }

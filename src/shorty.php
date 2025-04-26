@@ -34,6 +34,7 @@ if(!function_exists('retval')) {
     function retval_info(string $fmt, ...$args)         { return retval('info', $fmt, ...$args);        }
     function retval_warning(string $fmt, ...$args)      { return retval('warning', $fmt, ...$args);     }
     function retval_fail(string $fmt, ...$args)         { return retval('fail', $fmt, ...$args);        }
+    function retval_error(string $fmt, ...$args)        { return retval('error', $fmt, ...$args);       }
     function retval_fatal(string $fmt, ...$args)        { return retval('fatal', $fmt, ...$args);       }
     function retval_exception(string $fmt, ...$args)    { return retval('exception', $fmt, ...$args);   }
     function retval_fakup(string $fmt, ...$args)        { return retval('fakup', $fmt, ...$args);       }
