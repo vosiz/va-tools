@@ -28,11 +28,13 @@ class RetvalType extends Enum {
             // Fail
             'warning'   => Signal::Create('negative', 'mild')->GetValue(),
             'fail'      => Signal::Create('negative', 'moderate')->GetValue(),
+            'error'     => Signal::Create('negative', 'strong')->GetValue(),
             'fatal'     => Signal::Create('negative', 'peak')->GetValue(),
             'exception' => Signal::Create('negative', 'intense')->GetValue(),
             
             // Special
-            'fakup'     => Signal::Create('special', 'a')->GetValue(),
+            'debug'     => Signal::Create('special', 'd')->GetValue(),
+            'fakup'     => Signal::Create('special', 'f')->GetValue(),
         ];
         self::AddValues($vals);
     } 
@@ -44,6 +46,18 @@ class Retval extends \SmartObject {
     private $Type;
     private $Message;
     private $TypeEnum;
+
+    // Specific literal instances
+    public static function Success(string $fmt, ...$args)   { return self::Create('success', $fmt, ...$args);   }
+    public static function Notice(string $fmt, ...$args)    { return self::Create('notice', $fmt, ...$args);    }
+    public static function Info(string $fmt, ...$args)      { return self::Create('info', $fmt, ...$args);      }
+    public static function Warning(string $fmt, ...$args)   { return self::Create('warning', $fmt, ...$args);   }
+    public static function Fail(string $fmt, ...$args)      { return self::Create('fail', $fmt, ...$args);      }
+    public static function Error(string $fmt, ...$args)     { return self::Create('error', $fmt, ...$args);     }
+    public static function Gatal(string $fmt, ...$args)     { return self::Create('fatal', $fmt, ...$args);     }
+    public static function Exception(string $fmt, ...$args) { return self::Create('exception', $fmt, ...$args); }
+    public static function Debug(string $fmt, ...$args)     { return self::Create('debug', $fmt, ...$args);     }
+    public static function Fakup(string $fmt, ...$args)     { return self::Create('fakup', $fmt, ...$args);     }
 
     /**
      * Creates instance
@@ -83,4 +97,6 @@ class Retval extends \SmartObject {
 
         return $this->TypeEnum->Compare(RetvalType::GetEnum($type));
     }
+
+
 }

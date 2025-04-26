@@ -41,9 +41,29 @@ function TestRetval_CreateSpecifics() {
     $all[] = retval_info($msg)->ToString();
     $all[] = retval_warning($msg)->ToString();
     $all[] = retval_fail($msg)->ToString();
+    $all[] = retval_error($msg)->ToString();
     $all[] = retval_fatal($msg)->ToString();
     $all[] = retval_exception($msg)->ToString();
     $all[] = retval_fakup($msg)->ToString();
+
+    return $all;
+}
+
+function TestRetval_CreateSpecificsLiteral() {
+
+    $fmt = "something %s";
+    $par = "'retval'";
+    $all = [];
+    $all[] = Retval::Success($fmt, $par);
+    $all[] = Retval::Notice($fmt, $par);
+    $all[] = Retval::Info($fmt, $par);
+    $all[] = Retval::Warning($fmt, $par);
+    $all[] = Retval::Fail($fmt, $par);
+    $all[] = Retval::Error($fmt, $par);
+    $all[] = Retval::Gatal($fmt, $par);
+    $all[] = Retval::Exception($fmt, $par);
+    $all[] = Retval::Debug($fmt, $par);
+    $all[] = Retval::Fakup($fmt, $par);
 
     return $all;
 }
