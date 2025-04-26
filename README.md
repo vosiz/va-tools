@@ -4,9 +4,26 @@ PHP tools to ease work
 ## Important notes
 Used namespace: Vosiz\VaTools\"particular-part"
 
+F.e. to use Retval class (general/root):
+```php
+use Vosiz\VaTools\Retval;
+```
+Other examples...
+```php
+use Vosiz\VaTools\Structure\Credentials;
+use Vosiz\VaTools\Db\DbConnectionConfig;
+use Vosiz\VaTools\Db\DbConnection;
+```
+
+See "tests" folder to inspire.
+
 ## Contains
+### "General"
+- Signal - intensity class
+- Retval - Return value handling
+- Shorties - simple php/c-like function for shortcuts
 ### Parser
-- URL parser
+- URL parser - class to parse and structure URL
 ### Structure
 - credentials class
 - node hierarchy class
@@ -40,7 +57,7 @@ What is the plan?
 - [ ] - logger - database logging
 - [x] - shortcuts - shorties/aliases
 - [x] - general - signal
-- [x] - general - retval (return value control)
+- [x] - general - retval (return value control, shorties, literals)
 
 ## Bug report
 Everything ok
