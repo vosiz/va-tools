@@ -1,10 +1,16 @@
 # Change log
 ## Current version
+### 1.6.2 - Debug fix
+- debug dumper fix
+
+## History
+### 1.6.1 - Retvals ext
+- error and tests
+
 ### 1.6.0 - Retvals
 - retval
 - signal
 
-## History
 ### 1.5.1 - Debugger ext
 - backtracing
 - formatted string dump

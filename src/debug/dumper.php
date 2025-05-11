@@ -264,8 +264,6 @@ class Dumper extends \Singleton {
 
             $this->DumpProperty($prop, $lvl, $var);
         }
-
-        return self::GetHash($var);
     }
 
     /**
