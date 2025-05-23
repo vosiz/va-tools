@@ -9,8 +9,10 @@
             "Vosiz\\VaTools\\": "src/"
         },
         "files": [
+            "src/db/dbcon.php",
             "src/filter/strfilter.php",
             "src/parser/url.php",
+            "src/struct/cred.php",
             "src/struct/flag.php",
             "src/struct/nodeh.php",
             "src/shorty.php"
@@ -18,7 +20,7 @@
     },
     "require": {
         "php": ">=7.4",
-        "vosiz/php-utils": ">=1.4.4",
+        "vosiz/php-utils": ">=1.5.0",
         "vosiz/php-enum": ">=2.2.0"
     }
 }

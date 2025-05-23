@@ -1,9 +1,13 @@
 # Change log
 ## Current version
+### 1.6.3 - Debug fix
+- DB connection ref
+- credential ref
+
+## History
 ### 1.6.2 - Debug fix
 - debug dumper fix
 
-## History
 ### 1.6.1 - Retvals ext
 - error and tests
 
