@@ -1,10 +1,13 @@
 # Change log
 ## Current version
+### 1.7.0 - DB extension
+- db connection info
+
+## History
 ### 1.6.3 - Debug fix
 - DB connection ref
 - credential ref
 
-## History
 ### 1.6.2 - Debug fix
 - debug dumper fix
 

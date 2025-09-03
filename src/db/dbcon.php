@@ -36,6 +36,85 @@ class DbConnectionConfig {
     }
 }
 
+
+class DbConnectionInfo {
+
+    private $Medium;
+    private $User;
+    private $CurrentUser;
+    private $Database;
+    private $Hostname;
+    private $Port;
+
+    /**
+     * Constructor - fetches info
+     * @param \PDO $pdo
+     * @throws DbException
+     */
+    public function __construct(\PDO $pdo) {
+
+        try {
+
+            $stmt = $pdo->query("SELECT USER(), CURRENT_USER(), DATABASE(), @@hostname, @@port");
+            $info_arr = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $addt_conn_info = $pdo->getAttribute(\PDO::ATTR_CONNECTION_STATUS);
+
+            $this->Medium = $addt_conn_info;
+            $this->User = $info_arr["USER()"];
+            $this->CurrentUser = $info_arr["CURRENT_USER()"];
+            $this->Database = $info_arr["DATABASE()"];
+            $this->Hostname = $info_arr["@@hostname"];
+            $this->Port = $info_arr["@@port"];
+
+        } catch (\Exception $exc) {
+
+            throw new DbException("DB connection info creation failed: %s", $exc->getMessage());
+        }
+    }
+
+    /**
+     * ToString override
+     */
+    public function __toString() {
+
+        return sprintf(
+            "Connected as %s (%s) to %s:%s/%s (%s)",
+            $this->User,
+            $this->CurrentUser,
+            $this->Hostname,
+            $this->Port,
+            $this->Database,
+            $this->Medium
+        );
+    }
+
+    /**
+     * Returns info as string
+     * @return string
+     */
+    public function AsString() {
+
+        return $this->__toString();
+    }
+
+    /**
+     * Returns info as array
+     * @return array
+     */
+    public function AsArray() {
+
+        $info = [];
+        $info['User']           = $this->User;;
+        $info['Current user']   = $this->CurrentUser;
+        $info['Database']       = $this->Database;
+        $info['Hostname']       = $this->Hostname;
+        $info['Port']           = $this->Port;
+        $info['Medium']         = $this->Medium;
+        return $info;
+    }
+}
+
+
 /**
  * Simple connection to database, PDO-based
  */
@@ -61,10 +140,8 @@ class DbConnection {
             throw new DbException($exc->getMessage());
         }
         
-
-        //$this->pdo = new \PDO($dsn, $user, $password);
-        //$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
+
 
     /**
      * Creates basic querier
@@ -82,5 +159,46 @@ class DbConnection {
             throw new DbException($exc->getMessage());
         }
         
+    }
+
+    /**
+     * Connection info
+     * @return array
+     * @throws DbException
+     */
+    public function ConnInfo() {
+
+        try {
+
+            if(!$this->CheckConn())
+                throw new DbConnection("Connection check FALSE");
+
+            return new DbConnectionInfo($this->pdo);
+
+        } catch(\Exception $exc) {
+
+            throw new DbException("Connection failed: %s", $exc->getMessage());
+        }
+        
+    }
+
+    
+    /**
+     * Checks if connected
+     * @return bool (connected)
+     * @throws DbException
+     */
+    private function CheckConn() {
+
+        try {
+
+            $this->pdo->query("SELECT 1");
+            return true;
+
+        } catch(\Exception $exc) {
+
+            throw new DbException("Connection check failed");
+        }
+
     }
 }

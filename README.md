@@ -37,10 +37,12 @@ See "tests" folder to inspire.
 - database connection
 - database config
 - database query builder
+- database connection info
 
 ## Plan/roadmap
 What is the plan?
 - [x] - db - database (connection, config + CRUD)
+- [x] - db - database (connectio info)
 - [ ] - db - advanced (limit, sort, joins)
 - [x] - parser - URL parser
 - [x] - structure - node hierarchy
@@ -456,6 +458,21 @@ Ok lets delete it. Like real delete it.
 ```php
 // returns true if success
 $query = $db->Query($table)->Where('book_author = ?', ['MissX'])->Delete()->Execute();
+```
+
+## Connection info
+Need to check connection or get some additional info?
+Lets use previously instantiated $db instance.
+
+```php
+$db = new DbConnection($conconf);
+
+// got raw info
+$info = $db->ConnInfo();
+
+// obtain firendly formatted info
+$arr = $info->AsArray(); // keys are user firendly
+$str = $info->AsString();
 ```
 
 ### Debugger

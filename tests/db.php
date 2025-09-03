@@ -76,3 +76,14 @@ function TestDbCrud() {
     $crud = TestCrudReadAll();
     var_dump($crud);
 }
+
+// - 02 - Info
+require_once(__DIR__.'/db_02.php');
+function TestDbInfo() {
+
+    $info = TestConnectionInfoAsArray();
+    var_dump($info);
+
+    $info = TestConnectionInfoAsString();
+    var_dump($info);
+}
