@@ -1,6 +1,6 @@
 {
     "name": "vosiz/va-tools",
-    "description": "PHP tools (from Varaible Arts)",
+    "description": "PHP tools (from Variable Arts)",
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",
