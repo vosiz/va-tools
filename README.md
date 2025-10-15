@@ -47,7 +47,7 @@ What is the plan?
 - [x] - parser - URL parser
 - [x] - structure - node hierarchy
 - [x] - structure - flags (flag system)
-- [ ] - format - simple XML builder
+- [x] - format - simple XML builder
 - [ ] - format - simple HTML builder 
 - [x] - filter - basic filter
 - [x] - filter - string filtration
