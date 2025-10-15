@@ -4,7 +4,7 @@ namespace Vosiz\VaTools\Debug;
 
 require_once(__DIR__.'/dumper.php');
 
-use \Vosiz\Utils\Collections\Collection;
+use \Vosiz\Utils\Collections\Dictionary;
 
 class Debugger extends \Singleton {
 
@@ -67,7 +67,7 @@ class Debugger extends \Singleton {
             self::$Dumper = Dumper::GetInstance();
         }
 
-        self::$Seen = new Collection();
+        self::$Seen = new Dictionary();
     }
 
 }

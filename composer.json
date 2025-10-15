@@ -20,7 +20,7 @@
     },
     "require": {
         "php": ">=7.4",
-        "vosiz/php-utils": ">=1.5.0",
-        "vosiz/php-enum": ">=2.2.0"
+        "vosiz/php-utils": ">=1.7.1",
+        "vosiz/php-enum": ">=2.3.0"
     }
 }
