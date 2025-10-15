@@ -2,6 +2,7 @@
 ## Current version
 ### 1.8.1 - Dependecies
 - updated
+- fixed
 
 ## History
 ### 1.8.0 - Format - XML builder

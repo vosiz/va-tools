@@ -15,6 +15,7 @@
             "src/struct/cred.php",
             "src/struct/flag.php",
             "src/struct/nodeh.php",
+            "src/format/xml/xml.php",
             "src/shorty.php"
         ]
     },
