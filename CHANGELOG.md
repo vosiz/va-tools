@@ -1,11 +1,14 @@
 # Change log
 ## Current version
+### 1.8.1 - Dependecies
+- updated
+
+## History
 ### 1.8.0 - Format - XML builder
 - rendering
 - attributes
 - elements
 
-## History
 ### 1.7.1 - Dependecy update
 - using Dictionary
 

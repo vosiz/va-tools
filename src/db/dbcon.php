@@ -2,7 +2,7 @@
 
 namespace Vosiz\VaTools\Db;
 
-use Vosiz\Utils\Collections\Collection;
+use Vosiz\Utils\Collections\Dictionary;
 use Vosiz\VaTools\Structure\Credentials;
 
 require_once(__DIR__.'/exc.php');
@@ -22,7 +22,7 @@ class DbConnectionConfig {
 
         $this->Dns = $dsn;
         $this->Credentials = $creds;
-        $this->Atts = new Collection();
+        $this->Atts = new Dictionary();
     }
 
     /**
