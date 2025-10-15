@@ -1,9 +1,14 @@
 # Change log
 ## Current version
+### 1.8.0 - Format - XML builder
+- rendering
+- attributes
+- elements
+
+## History
 ### 1.7.1 - Dependecy update
 - using Dictionary
 
-## History
 ### 1.7.0 - DB extension
 - db connection info
 
