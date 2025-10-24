@@ -1,10 +1,15 @@
 # Change log
 ## Current version
+### 1.8.2 - Extension
+- private properties of XML Element now protected
+- set text option to XML Element
+- set name option to XML Element
+
+## History
 ### 1.8.1 - Dependecies
 - updated
 - fixed
 
-## History
 ### 1.8.0 - Format - XML builder
 - rendering
 - attributes

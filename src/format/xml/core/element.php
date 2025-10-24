@@ -7,12 +7,12 @@ use \VaTools\Format\Xml\XmlAttribute;
 
 class XmlElement {
 
-    private $Guid;      public function GetGuid()       { return $this->Guid;       }
-    private $Name;      public function GetName()       { return $this->Name;       }
-    private $Text;      public function GetText()       { return $this->Text;       }
-    private $Atts;      public function GetAtts()       { return $this->Atts;       }       
-    private $Parent;    public function GetParent()     { return $this->Parent;     }
-    private $Children;  public function GetChildren()   { return $this->Children;   }
+    protected $Guid;        public function GetGuid()       { return $this->Guid;       }
+    protected $Name;        public function GetName()       { return $this->Name;       }   public function SetName($name)  { $this->Name = $name;  }
+    protected $Text;        public function GetText()       { return $this->Text;       }   public function SetText($text)  { $this->Text = $text;  }
+    protected $Atts;        public function GetAtts()       { return $this->Atts;       }       
+    protected $Parent;      public function GetParent()     { return $this->Parent;     }
+    protected $Children;    public function GetChildren()   { return $this->Children;   }
 
 
     /**
