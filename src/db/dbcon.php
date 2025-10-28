@@ -135,7 +135,16 @@ class DbConnection {
                 $this->pdo->setAttribute($id, $att);
             }
 
-        } catch(Exception $exc) {
+        } catch(\PDOException $exc) {
+
+            if (preg_match('/\[(\d+)\]/', $exc->getMessage(), $m) && $m[1] == 1049) {
+
+                throw new DbNotFoundException($cfg->GetDsn());
+            }
+
+            throw new DbException($exc->getMessage());
+
+        } catch(\Exception $exc) {
 
             throw new DbException($exc->getMessage());
         }

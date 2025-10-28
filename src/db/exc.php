@@ -12,3 +12,11 @@ class DbException extends \Exceptionf {
         return parent::__construct($fmt, ...$args);
     }
 }
+
+class DbNotFoundException extends \Exception {
+
+    public function __construct(string $db_name) {
+
+        return parent::__construct("Database $db_name is missing.", 1049);
+    }
+}

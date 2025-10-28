@@ -9,7 +9,7 @@ use Vosiz\VaTools\Db\DbConnection;
 
 
 // make connection
-define('DB_CONNECT_STRING', "mysql:host=localhost;dbname=test_db");
+define('DB_CONNECT_STRING', "mysql:host=localhost;dbname=test_db2");
 define('DB_CONNECT_USER', 'root');
 define('DB_CONNECT_PASS', '');
 $conconf = new DbConnectionConfig(DB_CONNECT_STRING, new Credentials(DB_CONNECT_USER, DB_CONNECT_PASS));
