@@ -1,10 +1,14 @@
 # Change log
 ## Current version
-### 1.8.2 - DB connection
-- exception for missing DB
-- catching missing DB
+### 1.8.4 - QueryBuilder fixes
+- fix AndWhere/OrWhere calling wrong case method name
+- implement OrderBy (string or array col => ASC|DESC)
+- implement Limit
 
 ## History
+### 1.8.3 - DB missing
+- exception for missing DB
+- catching missing DB
 ### 1.8.2 - Extension
 - private properties of XML Element now protected
 - set text option to XML Element
