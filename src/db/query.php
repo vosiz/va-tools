@@ -65,10 +65,10 @@ class QueryBuilder {
     */
     public function AndWhere(string $condition, array $params = []) {
 
-        return $this->where("AND $condition", $params);
+        return $this->Where("AND $condition", $params);
     }
 
-    /** 
+    /**
      * OR WHERE clause
      * @param string $condition Additional condition (format: key = ?...)
      * @param array $params Conditions params
@@ -76,7 +76,7 @@ class QueryBuilder {
     */
     public function OrWhere(string $condition, array $params = []) {
 
-        return $this->where("OR $condition", $params);
+        return $this->Where("OR $condition", $params);
     }
 
     // TODO:
