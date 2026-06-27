@@ -14,8 +14,8 @@ class QueryBuilder {
     private $columns = ['*'];
     private $conditions = [];
     private $joins = [];
-    private $orderby = 'id ASC';
-    private $limit = '';
+    private $orderby = [];
+    private $limit = 0;
     private $wparams = []; 
     private $data = [];  
     
@@ -79,25 +79,31 @@ class QueryBuilder {
         return $this->Where("OR $condition", $params);
     }
 
-    // TODO:
-    // /** 
-    //  * @return QueryBuilder
-    // */
-    // public function OrderBy(string $orderBy) {
+    /**
+     * ORDER BY clause
+     * @param string|array $order Column name (ASC), or [column => 'ASC'|'DESC', ...]
+     * @return QueryBuilder
+     */
+    public function OrderBy($order) {
 
-    //     $this->orderby = $orderBy;
-    //     return $this;
-    // }
+        if(is_string($order))
+            $this->orderby = [$order => 'ASC'];
+        else
+            $this->orderby = $order;
 
-    // TODO:
-    // /** 
-    //  * @return QueryBuilder
-    // */
-    // public function Limit(int $limit) {
+        return $this;
+    }
 
-    //     $this->limit = $limit;
-    //     return $this;
-    // }
+    /**
+     * LIMIT clause
+     * @param int $limit Max rows to return
+     * @return QueryBuilder
+     */
+    public function Limit(int $limit) {
+
+        $this->limit = $limit;
+        return $this;
+    }
 
     /** 
      * Insert clause
@@ -181,8 +187,15 @@ class QueryBuilder {
         $columns = implode(', ', $this->columns);
         $joins = implode(' ', $this->joins);
         $where = $this->conditions ? 'WHERE ' . implode(' ', $this->conditions) : '';
-        $order = $this->orderby ? "ORDER BY $this->orderby" : '';
-        $limit = $this->limit ? "LIMIT $this->limit" : '';
+        $order = '';
+        if(!empty($this->orderby)) {
+            $parts = [];
+            foreach($this->orderby as $col => $dir) {
+                $parts[] = "$col $dir";
+            }
+            $order = 'ORDER BY ' . implode(', ', $parts);
+        }
+        $limit = $this->limit > 0 ? "LIMIT {$this->limit}" : '';
 
         return "SELECT $columns FROM {$this->table} $joins $where $order $limit";
     }
