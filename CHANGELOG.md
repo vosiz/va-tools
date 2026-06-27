@@ -1,11 +1,13 @@
 # Change log
 ## Current version
+### 1.8.5 - XML Linux fix
+- fix XmlElement using com_create_guid() (Windows-only) → guid() from php-utils
+
+## History
 ### 1.8.4 - QueryBuilder fixes
 - fix AndWhere/OrWhere calling wrong case method name
 - implement OrderBy (string or array col => ASC|DESC)
 - implement Limit
-
-## History
 ### 1.8.3 - DB missing
 - exception for missing DB
 - catching missing DB

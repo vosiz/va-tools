@@ -25,7 +25,7 @@ class XmlElement {
 
         $this->Name = $name;
         $this->Text = $text;
-        $this->Guid = $guid ? $guid : com_create_guid();
+        $this->Guid = $guid ? $guid : \guid();
         $this->Children = new Dictionary();
         $this->Parent = null;
         $this->Atts = new Dictionary();
