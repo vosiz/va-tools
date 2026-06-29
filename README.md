@@ -43,23 +43,26 @@ See "tests" folder to inspire.
 What is the plan?
 - [x] - db - database (connection, config + CRUD)
 - [x] - db - database (connectio info)
-- [ ] - db - advanced (limit, sort, joins)
+- [x] - db - advanced (limit, order)
+- [x] - db - advanced (raw, query)
+- [ ] - db - advanced (sort, joins)
 - [x] - parser - URL parser
 - [x] - structure - node hierarchy
 - [x] - structure - flags (flag system)
 - [x] - format - simple XML builder
+- [ ] - format - simple JSON builder
 - [ ] - format - simple HTML builder 
 - [x] - filter - basic filter
 - [x] - filter - string filtration
 - [x] - debugger - basic class with dumper (broswer dump + recursion detection)
 - [x] - debugger - backtrace
 - [ ] - debugger - more dumper variants
-- [ ] - logger - basics
-- [ ] - logger - file dump
-- [ ] - logger - database logging
+- [x] - logger - basics
+- [x] - logger - file dump
 - [x] - shortcuts - shorties/aliases
 - [x] - general - signal
 - [x] - general - retval (return value control, shorties, literals)
+- [x] - IO - file, dir, path utilities
 
 ## Bug report
 Everything ok
