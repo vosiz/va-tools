@@ -16,12 +16,13 @@
             "src/struct/flag.php",
             "src/struct/nodeh.php",
             "src/format/xml/xml.php",
+            "src/format/html/html.php",
             "src/shorty.php"
         ]
     },
     "require": {
         "php": ">=7.4",
-        "vosiz/php-utils": ">=1.8.0",
+        "vosiz/php-utils": ">=1.11.0",
         "vosiz/php-enum": ">=2.3.0"
     }
 }

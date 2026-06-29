@@ -1,9 +1,17 @@
 # Change log
 ## Current version
-### 1.8.6 - XmlElement override support
-- StartElement, EndElement, IsVoided private → protected
+### 1.9.0 - HTML builder
+- HtmlBuilder extends XmlBuilder — root html with auto head/body, AddToHead/AddToBody, Render (DOCTYPE)
+- HtmlElement extends XmlElement — void tags by name, HTML rendering, fluent SetId/SetClass
+- HtmlFactory trait — factory methods: A, Button, Div, H, Input, Li, Ol, P, Table, Tr, Ul
+- elements: HtmlDivision, HtmlHeading, HtmlLink, HtmlParagraph, HtmlListItem, HtmlList, HtmlOrderedList, HtmlUnorderedList, HtmlTable, HtmlThead, HtmlTbody, HtmlTr, HtmlTd, HtmlTh
+- base: Clickable extends HtmlElement — fluent SetLink
+- HtmlException with element context and inner exception support; TableInvalidDimensions
+- php-utils dependency bumped to >=1.11.0
 
 ## History
+### 1.8.6 - XmlElement override support
+- StartElement, EndElement, IsVoided private → protected
 ### 1.8.5 - XML Linux fix
 - fix XmlElement using com_create_guid() (Windows-only) → guid() from php-utils
 
