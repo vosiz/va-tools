@@ -116,7 +116,7 @@ class XmlElement {
      * Element render start
      * @return string
      */
-    private function StartElement() {
+    protected function StartElement() {
 
         $str = sprintf('<%s', $this->Name);
         $str .= $this->Atts->IsEmpty() ? '' : ' '.XmlAttribute::PrintArray($this->Atts);
@@ -133,7 +133,7 @@ class XmlElement {
      * @return false when void
      * @return string when two part element
      */
-    private function EndElement() {
+    protected function EndElement() {
 
         if($this->IsVoided())
             return;
@@ -145,7 +145,7 @@ class XmlElement {
      * Check if element should be rendered as voided
      * @return bool <el></el> or <el />
      */
-    private function IsVoided() {
+    protected function IsVoided() {
 
         return (is_noe($this->Text) && empty($this->Children));
     }
