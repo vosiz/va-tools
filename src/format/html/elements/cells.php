@@ -1,8 +1,8 @@
 <?php
 
-namespace VaTools\Format\Html\Elements;
+namespace Vosiz\VaTools\Format\Html\Elements;
 
-use \VaTools\Format\Html\HtmlElement;
+use \Vosiz\VaTools\Format\Html\HtmlElement;
 
 class HtmlTr extends HtmlElement {
 

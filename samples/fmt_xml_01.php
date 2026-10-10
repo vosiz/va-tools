@@ -1,6 +1,6 @@
 <?php
 
-use \VaTools\Format\XmlBuilder as Xml;
+use \Vosiz\VaTools\Format\XmlBuilder as Xml;
 
 function TestFmtXml_Render() {
 

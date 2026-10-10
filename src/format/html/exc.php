@@ -1,6 +1,6 @@
 <?php
 
-namespace VaTools\Format\Html;
+namespace Vosiz\VaTools\Format\Html;
 
 class HtmlException extends \Exception {
 
@@ -12,7 +12,7 @@ class HtmlException extends \Exception {
      * @param string $message Error message
      * @param \Throwable|null $previous Inner exception
      */
-    public function __construct(string $element, string $message = '', \Throwable $previous = null) {
+    public function __construct(string $element, string $message = '', ?\Throwable $previous = null) {
 
         $this->Element = $element;
         parent::__construct(sprintf('[%s] %s', $element, $message), 0, $previous);

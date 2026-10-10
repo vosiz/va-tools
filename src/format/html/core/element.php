@@ -1,9 +1,9 @@
 <?php
 
-namespace VaTools\Format\Html;
+namespace Vosiz\VaTools\Format\Html;
 
-use \VaTools\Format\Xml\XmlElement;
-use \VaTools\Format\Xml\XmlAttribute;
+use \Vosiz\VaTools\Format\Xml\XmlElement;
+use \Vosiz\VaTools\Format\Xml\XmlAttribute;
 
 class HtmlElement extends XmlElement {
 

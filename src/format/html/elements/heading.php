@@ -1,16 +1,16 @@
 <?php
 
-namespace VaTools\Format\Html\Elements;
+namespace Vosiz\VaTools\Format\Html\Elements;
 
-use \VaTools\Format\Html\HtmlElement;
-use \VaTools\Format\Html\HtmlException;
+use \Vosiz\VaTools\Format\Html\HtmlElement;
+use \Vosiz\VaTools\Format\Html\HtmlException;
 
 class HtmlHeading extends HtmlElement {
 
     /**
      * @param int $level Heading level 1–6
      * @param string $text Inner text
-     * @throws VaTools\Format\Html\HtmlException
+     * @throws Vosiz\VaTools\Format\Html\HtmlException
      */
     public function __construct(int $level, string $text = '') {
 

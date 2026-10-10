@@ -1,8 +1,8 @@
 <?php
 
-namespace VaTools\Format\Html\Base;
+namespace Vosiz\VaTools\Format\Html\Base;
 
-use \VaTools\Format\Html\HtmlElement;
+use \Vosiz\VaTools\Format\Html\HtmlElement;
 
 class Clickable extends HtmlElement {
 

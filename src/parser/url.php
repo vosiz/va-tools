@@ -51,16 +51,26 @@ class UrlParser {
     /** 
      * Constructor
      * @param UrlStructure $struct Setup scenario
+     * @param string|null $uri URI to parse (path with optional query), NULL takes it from the request
+     * @throws UrlParserException
     */
-    public function __construct(UrlStructure $struct) {
+    public function __construct(UrlStructure $struct, ?string $uri = NULL) {
     
         try {
 
-            $this->FullUrl = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+            if($uri === NULL)
+                $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 
-            $this->FullWithIgnored = $this->FullUrl;
-            if (strlen($struct->Ignore) > 0 && strpos($this->FullUrl, $struct->Ignore) === 0) {
-                $this->FullWithIgnored  = substr($this->FullUrl, strlen($struct->Ignore));
+            $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+            $this->FullUrl = $host.$uri;
+
+            // parts come from the path only - no host, no query
+            $path   = ltrim((string)parse_url($uri, PHP_URL_PATH), '/');
+            $ignore = ltrim($struct->Ignore, '/');
+
+            $this->FullWithIgnored = $path;
+            if (strlen($ignore) > 0 && strpos($path.'/', $ignore) === 0) {
+                $this->FullWithIgnored  = (string)substr($path, strlen($ignore));
             }      
 
             $parts = explode('/', $this->FullWithIgnored);
@@ -81,7 +91,7 @@ class UrlParser {
             
         } catch(\Exception $exc) {
 
-            throw new UrlParserException($exc->getMessage());
+            throw UrlParserException::CreateInner($exc, $exc->getMessage());
         }
 
     }
@@ -101,7 +111,7 @@ class UrlParser {
 
         } catch(\Exception $exc) {
 
-            throw new UrlParserException($exc->getMessage());
+            throw UrlParserException::CreateInner($exc, $exc->getMessage());
         }
         
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace VaTools\Format\Html\Elements;
+namespace Vosiz\VaTools\Format\Html\Elements;
 
-use \VaTools\Format\Html\Base\Clickable;
+use \Vosiz\VaTools\Format\Html\Base\Clickable;
 
 class HtmlLink extends Clickable {
 

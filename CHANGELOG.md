@@ -1,5 +1,27 @@
 # Change log
 ## Current version
+### 1.10.0 - Big beautiful fix
+- XML/HTML — text and attribute values escaped, element and attribute names checked (XmlException)
+- XML/HTML — setting an attribute again overwrites, element has one parent, empty XML element renders as <empty/>, id 0 is valid
+- XmlBuilder — XML declaration on by default (SetDeclaration)
+- XML/HTML namespace moved to Vosiz\VaTools\Format
+- QueryBuilder — table, Insert/Update keys and OrderBy checked and quoted, Select columns stay raw SQL
+- QueryBuilder — repeated Where joins with AND, builder can be executed again, Limit(0) returns no rows
+- QueryBuilder — Insert/Update/Delete return number of affected rows
+- DbConnection — PDO exceptions always on, LastInsertId, Raw, original exception kept as inner
+- Credentials — RevealPassword, protected credentials can connect
+- Retval — GetMessage, GetTypeName, GetTypeEnum, % in message, Gatal renamed to Fatal
+- SignalType — possitive renamed to positive
+- Flagword — size in bytes fixed, ToInt, FromInt, GetFlagwordUnitSize
+- UrlParser — parts from path only (no host), URI can be passed in
+- NodeHierarchy — works on Linux, SetParent/AddChild keep both sides, one parent, root of whole subtree
+- Filter — unknown command and wrong data type throw FilterException
+- Debugger — values escaped, recursion only on real cycles
+- requires php-utils 1.12 and php-enum 2.4
+- tests — PHPUnit, tests.sh
+- samples moved to samples/
+
+## History
 ### 1.9.0 - HTML builder
 - HtmlBuilder extends XmlBuilder — root html with auto head/body, AddToHead/AddToBody, Render (DOCTYPE)
 - HtmlElement extends XmlElement — void tags by name, HTML rendering, fluent SetId/SetClass
@@ -9,7 +31,6 @@
 - HtmlException with element context and inner exception support; TableInvalidDimensions
 - php-utils dependency bumped to >=1.11.0
 
-## History
 ### 1.8.6 - XmlElement override support
 - StartElement, EndElement, IsVoided private → protected
 ### 1.8.5 - XML Linux fix

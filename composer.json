@@ -3,6 +3,7 @@
     "description": "PHP tools (from Variable Arts)",
     "type": "library",
     "license": "MIT",
+    "keywords": ["php", "tools", "database", "pdo", "query-builder", "xml", "html", "filter", "debug"],
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
@@ -22,7 +23,15 @@
     },
     "require": {
         "php": ">=7.4",
-        "vosiz/php-utils": ">=1.11.0",
-        "vosiz/php-enum": ">=2.3.0"
+        "vosiz/php-utils": "~1.12.0",
+        "vosiz/php-enum": "~2.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.33"
+        }
     }
 }

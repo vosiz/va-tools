@@ -1,7 +1,54 @@
 # va-tools
 PHP tools to ease work
-
-## Important notes
+## Motivation
+A bag of small tools I kept rewriting in every PHP project - database access, URL parsing, XML/HTML output, flags, return values, debugging. Built on [php-utils](https://github.com/vosiz/php-utils) and [php-enum](https://github.com/vosiz/php-enum). Made by personal need, so feel free to use it if it fits yours. MIT - use it however you like.
+## Requirements
+- PHP 7.4 or newer
+- Composer
+- [vosiz/php-utils](https://github.com/vosiz/php-utils) 1.12 and [vosiz/php-enum](https://github.com/vosiz/php-enum) 2.4 (installed by Composer)
+- PDO with a MySQL/MariaDB driver for the database part
+## Bug tracker
+No tracked
+## Features
+Everything checked in the [Roadmap](#roadmap).
+## Roadmap
+### General
+- [x] Signal (intensity class)
+- [x] Retval (return value control, shorties, literals)
+- [x] Shortcuts (shorties/aliases)
+### Database
+- [x] Connection, config, CRUD
+- [x] Connection info
+- [x] Limit, order
+- [x] Raw query, last insert id
+- [ ] Joins, group by, offset
+- [ ] Transactions
+- [ ] Parentheses for OR conditions
+### Parser
+- [x] URL parser
+### Structure
+- [x] Node hierarchy
+- [x] Flags (flag system)
+- [x] Credentials
+### Format
+- [x] Simple XML builder
+- [x] Simple HTML builder
+- [ ] Unset/Add/Remove for element attributes and classes
+- [ ] Simple JSON builder
+### Filter
+- [x] Basic filter
+- [x] String filtration
+### Debugger
+- [x] Basic class with dumper (broswer dump + recursion detection)
+- [x] Backtrace
+- [ ] More dumper variants
+### Tests
+- [x] PHPUnit tests, tests.sh
+- [ ] Tests for the database part
+## Setup
+```
+composer require vosiz/va-tools
+```
 Used namespace: Vosiz\VaTools\"particular-part"
 
 F.e. to use Retval class (general/root):
@@ -13,93 +60,31 @@ Other examples...
 use Vosiz\VaTools\Structure\Credentials;
 use Vosiz\VaTools\Db\DbConnectionConfig;
 use Vosiz\VaTools\Db\DbConnection;
+use Vosiz\VaTools\Format\XmlBuilder;
 ```
 
-See "tests" folder to inspire.
-
-## Contains
-### "General"
-- Signal - intensity class
-- Retval - Return value handling
-- Shorties - simple php/c-like function for shortcuts
-### Parser
-- URL parser - class to parse and structure URL
-### Structure
-- credentials class
-- node hierarchy class
-- flag system classes
-### Filter
-- data filtration classes
-### Debug
-- broswer dumper
-- recursion detection
-### Database
-- database connection
-- database config
-- database query builder
-- database connection info
-
-## Plan/roadmap
-What is the plan?
-- [x] - db - database (connection, config + CRUD)
-- [x] - db - database (connectio info)
-- [x] - db - advanced (limit, order)
-- [x] - db - advanced (raw, query)
-- [ ] - db - advanced (sort, joins)
-- [x] - parser - URL parser
-- [x] - structure - node hierarchy
-- [x] - structure - flags (flag system)
-- [x] - format - simple XML builder
-- [ ] - format - simple JSON builder
-- [ ] - format - simple HTML builder 
-- [x] - filter - basic filter
-- [x] - filter - string filtration
-- [x] - debugger - basic class with dumper (broswer dump + recursion detection)
-- [x] - debugger - backtrace
-- [ ] - debugger - more dumper variants
-- [x] - logger - basics
-- [x] - logger - file dump
-- [x] - shortcuts - shorties/aliases
-- [x] - general - signal
-- [x] - general - retval (return value control, shorties, literals)
-- [x] - IO - file, dir, path utilities
-
-## Bug report
-Everything ok
-None (all solved)
-
-## Installation
-### Composer
-Install with
-```
-composer install vosiz/va-tools
-```
-
-Update with (dependencies/required)
-```
-composer update
-```
-
-## TOOLS - how to use them?
+See "samples" folder to inspire.
 ### Parser - URL parser
 Parses URL to user defined structure
 
 Include classes, something like this:
 ```php
-use Vosiz\VaTools\Url\UrlStructure as UrlStruct;
-use Vosiz\VaTools\Url\UrlParser as Parser;
+use Vosiz\VaTools\Parser\UrlStructure as UrlStruct;
+use Vosiz\VaTools\Parser\UrlParser as Parser;
 ```
 
 Then you need to define structure model you want to use, like this:
 ```php
-// asuming structure www.myurl.com/<controller>/<action>?par=value... or something similar
-// somethng like: wwww.myurl.com/user/profile/$userid=123...
-$struct = UrlStruct::Create('www.myurl.com', ['controller', 'action']);
+// asuming structure www.myurl.com/api/<controller>/<action>?par=value... or something similar
+// somethng like: wwww.myurl.com/api/user/profile?userid=123...
+// first parameter is the part of path to ignore (no host, only path), can be empty
+$struct = UrlStruct::Create('api', ['controller', 'action']);
 ```
 
 Pass it to a parser
 ```php
-$parser = new Parser($struct);
+$parser = new Parser($struct);                          // takes URI of current request
+$parser = new Parser($struct, '/api/user/profile');     // or give it your own
 ```
 
 Access parts you need
@@ -138,8 +123,11 @@ $node_orphan->SetParent($root);
 Add child or children explicetely (child(ren) setup will automatically set parent to them):
 ```php
 $node->AddChild($some_lonely_node);
-$node->AddChild($array_of_lonely_nodes);
+$node->AddChildren($array_of_lonely_nodes);
 ```
+
+> [!NOTE]
+> Node has one parent only. Give it a new one and it leaves the old one (root of the whole subtree follows). Node can not be placed under itself or its own descendant.
 
 If needed to traverse node mesh (in-depth):
 ```php
@@ -240,15 +228,15 @@ class MyClassWithMoreConfig {
 
     public function __construct() {
 
-        $this->ConfigurationGeneral(2);     // I know i do not need more than 16 flags (2 bytes)
-        $this->ConfigurationSpecifics(5);   // I know i do not need more than 40 flags (5 bytes)
+        $this->ConfigurationGeneral = new Fword(2);     // I know i do not need more than 16 flags (2 bytes)
+        $this->ConfigurationSpecifics = new Fword(5);   // I know i do not need more than 40 flags (5 bytes)
         ...
     }
 }
 ```
 
 > [!NOTE]
-> Flag system is designed to be lightweight so it will only take as much space is needed - detecting your architecture (32/64) and setup structure to be minimalistic.
+> Flag system is designed to be lightweight - it detects your architecture (32/64) and rounds the size up to whole integers, so 2 bytes on 64bit system give you 64 flags.
 
 Lets asume we have getters to configs.
 
@@ -276,7 +264,13 @@ $general->SetFlag(9, $conf9);   // config of index 9 is set whatever value is st
 Now you can read them.
 ```php
 $flag8 = $general->ByIndex(8); // returns Flag of index 8
-$gcfg8 = $flag8->Isset();
+$gcfg8 = $flag8->IsSet();
+```
+
+Flagword which fits one integer (default size does) can be stored as a number and loaded back, f.e. to keep it in database.
+```php
+$mask = $general->ToInt();              // bit n = flag n
+$general = (new Fword())->FromInt($mask);
 ```
 
 Second way is to use built-in functions. Lets use specifics and lets asume we have to define certain specifics to check later.
@@ -327,7 +321,8 @@ $authorized = $cr->Auth('user', '3215'); // do with the returned bool as you ple
 If you are afraid of password leak, via GetPassword() method, you can create password protected with placeholder.
 ```php
 $cr = new Credentials('user', '1234', true);
-$pass = $cr->GetPassword(); // will end up with "*****" like something, does not have effect on authorization
+$pass = $cr->GetPassword();     // will end up with "*****" like something, does not have effect on authorization
+$real = $cr->RevealPassword();  // real one, when you really need it (database connection uses this)
 ```
 
 
@@ -375,6 +370,9 @@ $filter->Filter(['contains' => 'MyNamspace\\MyClass']);
 > [!NOTE]
 > Filtration is made in cascades. So you can filter filtered data simply by calling another Filter().
 
+> [!NOTE]
+> "contains" looks for value of the same type ('5' does not find 5). Unknown command throws FilterException.
+
 > [!TIP]
 > You can reset filter anytime (to work on same dataset) with calling ResetFilter().
 
@@ -385,10 +383,10 @@ Now we can receive filtered dataset.
 $fdata = $filter->GetFiltered();
 
 // just print it (before filtration)
-$filter->PrintAll();
+$filter->ListAll();
 
 // just print it (after filtration)
-$filter->PrintFiltered();
+$filter->ListFiltered();
 ```
 ### Database - connection and query building
 To connect to database you need 3 things:
@@ -406,11 +404,14 @@ define('DB_CONNECT_PASS', '');
 
 // crete configuration
 $conconf = new DbConnectionConfig(DB_CONNECT_STRING, new Credentials(DB_CONNECT_USER, DB_CONNECT_PASS));
-$conconf->AddAttr(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+$conconf->AddAttr(\PDO::ATTR_TIMEOUT, 5); // any PDO attribute you need
 
 // instantiate
 $db = new DbConnection($conconf);
 ```
+
+> [!NOTE]
+> Errors are always exceptions (DbException). Original exception is kept inside - $exc->GetInner().
 
 Lets CRUD this thing, starting with READ.
 You need to provide table name and selection information if needed.
@@ -433,23 +434,34 @@ return $db->Query($table)->Where('id = ?', [1])->AndWhere('id = ?', [1])->Select
 return $db->Query($table)->Where('id = ?', [1])->OrWhere('id = ?', [2])->Select(['id'])->Execute();
 ```
 
+> [!NOTE]
+> Calling Where again joins with AND, so you can add conditions in a loop.
+
+Order and limit:
+```php
+return $db->Query($table)->Select()->OrderBy(['name' => 'DESC'])->Limit(10)->Execute();
+```
+
 > [!WARNING]
-> Be sure to use Where before AndWhere or OrWhere
+> Table name, column names in Insert/Update and OrderBy are checked and quoted. Columns given to Select are raw SQL (so COUNT(*) AS count works) - never put anything from request there.
 
 Now lets INSERT something
 
 ```php
-// returns true if success
-return $db->Query($table)->Insert([
+// returns number of affected rows
+$db->Query($table)->Insert([
     'book_name' => 'Chronicles of MissX',
     'book_author' => 'MisterX'
 ])->Execute();
+
+// id of inserted row
+return $db->LastInsertId();
 ```
 
 Ok lets UPDATE that last entry
 
 ```php
-// returns true if success
+// returns number of affected rows (MySQL counts changed rows only)
 $db->Query($table)->Update([
     'book_name' => 'Chronicles of MasterX',
     'book_author' => 'MissX'
@@ -459,11 +471,17 @@ $db->Query($table)->Update([
 Ok lets delete it. Like real delete it.
 
 ```php
-// returns true if success
+// returns number of affected rows
 $query = $db->Query($table)->Where('book_author = ?', ['MissX'])->Delete()->Execute();
 ```
 
-## Connection info
+Something builder can not do? Go raw.
+
+```php
+$db->Raw('UPDATE books SET sold = sold + 1 WHERE id = ?', [5]);
+```
+
+### Database - connection info
 Need to check connection or get some additional info?
 Lets use previously instantiated $db instance.
 
@@ -506,7 +524,7 @@ debug(true);
 debug('†');
 debug("string");
 debug(NULL);
-debug(1, 5, "str");¨
+debug(1, 5, "str");
 
 class MyClass {
 
@@ -525,3 +543,68 @@ debug([1, 2, 3 => 'QWE'])
     $var = 1; // anything you want
     Debug::Dump($var);
 ```
+
+### General - Retval
+Return value with type and message, f.e. to pass result of operation up.
+
+```php
+use Vosiz\VaTools\Retval;
+
+$retval = Retval::Warning('not a %s problem', 'severe'); // or shorty retval_warning(...)
+
+$retval->Is('warning');     // true
+$retval->GetMessage();      // not a severe problem
+$retval->GetTypeName();     // Warning
+$retval->GetTypeEnum();     // RetvalType enum
+echo $retval;               // [Retval.Warning]: not a severe problem
+```
+
+Types: Success, Notice, Info, Warning, Fail, Error, Fatal, Exception, Debug, Fakup.
+
+### Format - XML builder
+Simple builder of XML documents. Texts and attribute values are escaped for you, names of elements and attributes are checked (XmlException).
+
+```php
+use Vosiz\VaTools\Format\XmlBuilder as Xml;
+
+$root = Xml::CreateRoot('response');
+$item = Xml::CreateElement('item', 'Tom & Jerry');
+$item->AddAtts(['id' => 5]);
+$item->SetParent($root);
+
+$xml = new Xml();
+$xml->SetRoot($root);
+
+echo $xml->Render();
+// <?xml version="1.0" encoding="UTF-8"?>
+// <response><item id="5">Tom &amp; Jerry</item></response>
+```
+
+> [!TIP]
+> Do not want the declaration? $xml->SetDeclaration(false)
+
+### Format - HTML builder
+Same thing for HTML, with factory for common elements.
+
+```php
+use Vosiz\VaTools\Format\HtmlBuilder as Html;
+
+$html = new Html();
+$html->AddToBody([
+    Html::H(1, 'Hello'),
+    Html::P('1 < 2'),
+    Html::A('click me', '/path')->SetClass('button'),
+    Html::Ul(['one', 'two']),
+    Html::Table([['Alice', 30], ['Bob', 25]], ['Name', 'Age']),
+]);
+
+echo $html->Render(); // whole document with DOCTYPE
+```
+
+Factory: A, Button, Div, H, Input, Li, Ol, P, Table, Tr, Ul. Anything else with Html::CreateElement('tag', 'text').
+
+### Tests
+```
+./tests.sh
+```
+Runs PHPUnit in Docker on PHP 7.4 and 8.2, nothing but Docker is needed. Arguments go to PHPUnit (`./tests.sh --filter Flagword`), `PHP_VERSIONS=8.2 ./tests.sh` picks the version.

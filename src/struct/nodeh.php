@@ -28,38 +28,48 @@ class NodeHierarchy {
      * @param string $name Identifaction
      * @param NodeHierarchy $parent Parent node (null means it will be root)
      */
-    protected function __construct(string $name, NodeHierarchy $parent = NULL) {
+    protected function __construct(string $name, ?NodeHierarchy $parent = NULL) {
 
         $this->Name = $name;
         $this->Root = $this;
+        $this->Guid = \guid();
+
         if(!is_null($parent)) {
 
-            $parent->AddChild($this);
-            $this->Root = $parent->Root;
+            $this->SetParent($parent);
         }
-         
-        $this->Guid = com_create_guid();
     }
 
     /** 
-     * Sets parent
+     * Sets parent, leaves the previous one - node becomes a child of the new parent
      * @param NodeHierarchy $node Node to set as parent
      * @return NodeHierarchy
+     * @throws NodeHierarchyException
     */
     public function SetParent(NodeHierarchy $node) {
 
+        if($this->Parent === $node)
+            return $this;
+
+        if($node->IsWithin($this))
+            throw new NodeHierarchyException("Node {$this->Name} cannot be placed under itself or its own descendant");
+
+        $this->Detach();
         $this->Parent = $node;
+        $node->Children[] = $this;
+        $this->UpdateRoot($node->Root);
+
         return $this;
     }
 
     /** 
-     * Adds child node
+     * Adds child node - the same as setting this node as its parent
      * @param NodeHierarchy $node Child node
      * @return NodeHierarchy
+     * @throws NodeHierarchyException
     */
     public function AddChild(NodeHierarchy $node) {
 
-        $this->Children[] = $node;
         $node->SetParent($this);
         return $this;
     }
@@ -74,7 +84,7 @@ class NodeHierarchy {
         foreach($nodes as $node) {
 
             if(!$node instanceof NodeHierarchy)
-                throw new NodeHierarchyException("Node is not NodeHierarchy type, found: $node->__toString()");
+                throw new NodeHierarchyException("Node is not NodeHierarchy type, found: {$node->__toString()}");
 
             $this->AddChild($node);
         }
@@ -131,8 +141,60 @@ class NodeHierarchy {
      * @param NodeHierarchy $parent parent node, NULL if root
      * @return NodeHierarchy
      */
-    public static function Create(string $name, NodeHierarchy $parent = NULL) {
+    public static function Create(string $name, ?NodeHierarchy $parent = NULL) {
 
         return new NodeHierarchy($name, $parent);
+    }
+
+
+    /**
+     * Removes node from children of its parent
+     */
+    protected function Detach() {
+
+        if($this->Parent === NULL)
+            return;
+
+        $index = array_search($this, $this->Parent->Children, true);
+        if($index !== false) {
+
+            unset($this->Parent->Children[$index]);
+            $this->Parent->Children = array_values($this->Parent->Children);
+        }
+
+        $this->Parent = NULL;
+    }
+
+
+    /**
+     * Checks if node is given node or lies somewhere under it
+     * @param NodeHierarchy $node
+     * @return bool
+     */
+    private function IsWithin(NodeHierarchy $node) {
+
+        $current = $this;
+        while($current !== NULL) {
+
+            if($current === $node)
+                return true;
+
+            $current = $current->Parent;
+        }
+
+        return false;
+    }
+
+    /**
+     * Sets root for node and its whole subtree
+     * @param NodeHierarchy $root
+     */
+    private function UpdateRoot(NodeHierarchy $root) {
+
+        $this->Root = $root;
+        foreach($this->Children as $child) {
+
+            $child->UpdateRoot($root);
+        }
     }
 }
