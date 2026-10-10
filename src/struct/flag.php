@@ -84,7 +84,7 @@ class Flagword {
     private $Flags;         // Flags storage
     private $Registered;    // a quick search collection
 
-    private $FlagwordUnitSize;  public function GetFlagLocalwordUnitSize() { return $this->FlagwordUnitSize; }
+    private $FlagwordUnitSize;  public function GetFlagwordUnitSize() { return $this->FlagwordUnitSize; }
     
 
     /**
@@ -95,7 +95,7 @@ class Flagword {
 
         $this->FlagwordUnitSize = PHP_INT_SIZE;
 
-        $layers = ceil($size_in_bytes / PHP_INT_SIZE / 8);
+        $layers = ceil($size_in_bytes / PHP_INT_SIZE);
         $this->Flags = array();
         for($i = 0; $i < $layers; $i++) {
 
@@ -130,7 +130,7 @@ class Flagword {
 
             $this->Registered->Add($flag, $key, $update);
 
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
 
             throw $exc;
         }
@@ -151,7 +151,7 @@ class Flagword {
             $local_index = $index % (PHP_INT_SIZE * 8);
             return $this->GetFlagLocal($local_index, $row);
 
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
 
             throw $exc;
         }
@@ -174,11 +174,44 @@ class Flagword {
 
             return $flag;
 
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
 
             throw new FlagException("Setting flag error ".$exc->getMessage());
         }
 
+    }
+
+    /**
+     * Flags as one integer (bit n = flag n), single layer flagword only
+     * @return int
+     * @throws FlagException
+     */
+    public function ToInt() {
+
+        $value = 0;
+        foreach($this->SingleLayer() as $i => $flag) {
+
+            if($flag->IsSet())
+                $value |= (1 << $i);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Sets flags from one integer (bit n = flag n), single layer flagword only
+     * @param int $value
+     * @return Flagword
+     * @throws FlagException
+     */
+    public function FromInt(int $value) {
+
+        foreach($this->SingleLayer() as $i => $flag) {
+
+            $flag->Set(($value >> $i) & 1);
+        }
+
+        return $this;
     }
 
     /**
@@ -199,6 +232,19 @@ class Flagword {
         return true;
     }
 
+
+    /**
+     * Gets the only layer of flagword
+     * @return Flag[]
+     * @throws FlagException
+     */
+    private function SingleLayer() {
+
+        if(count($this->Flags) != 1)
+            throw new FlagException("Flagword with more layers cannot be converted to/from integer");
+
+        return $this->Flags[0];
+    }
 
     /**
      * Gets correct flagword from flag-array by index
@@ -233,7 +279,7 @@ class Flagword {
 
             return $row[$local_index];
 
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
 
             throw new FlagException("Getting flag error ".$exc->getMessage());
         }

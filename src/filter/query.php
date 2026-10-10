@@ -25,7 +25,7 @@ class DataFilterQuery {
                 $this->QueryHandlers[] = $this->TryParse($command, $params);
             }
 
-        } catch(Exception $exc) {
+        } catch (\Exception $exc) {
 
             throw $exc;
         }
@@ -48,7 +48,7 @@ class DataFilterQuery {
 
             return \instclass($class, $command, $pars);
 
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
 
             throw new FilterException("Cannot parse query: ".$exc->getMessage());
         }

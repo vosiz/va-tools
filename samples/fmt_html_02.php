@@ -1,7 +1,7 @@
 <?php
 
-use \VaTools\Format\HtmlBuilder as Html;
-use \VaTools\Format\Html\Elements\HtmlListItem;
+use \Vosiz\VaTools\Format\HtmlBuilder as Html;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlListItem;
 
 function TestFmtHtml_Factory() {
 

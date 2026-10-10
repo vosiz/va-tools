@@ -1,25 +1,25 @@
 <?php
 
-namespace VaTools\Format;
+namespace Vosiz\VaTools\Format;
 
-use \VaTools\Format\Html\HtmlElement as Element;
-use \VaTools\Format\Html\Elements\HtmlDivision;
-use \VaTools\Format\Html\Elements\HtmlHeading;
-use \VaTools\Format\Html\Elements\HtmlLink;
-use \VaTools\Format\Html\Elements\HtmlListItem;
-use \VaTools\Format\Html\Elements\HtmlOrderedList;
-use \VaTools\Format\Html\Elements\HtmlParagraph;
-use \VaTools\Format\Html\Elements\HtmlTable;
-use \VaTools\Format\Html\Elements\HtmlTr;
-use \VaTools\Format\Html\Elements\HtmlTd;
-use \VaTools\Format\Html\Elements\HtmlUnorderedList;
+use \Vosiz\VaTools\Format\Html\HtmlElement as Element;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlDivision;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlHeading;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlLink;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlListItem;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlOrderedList;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlParagraph;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlTable;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlTr;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlTd;
+use \Vosiz\VaTools\Format\Html\Elements\HtmlUnorderedList;
 
 trait HtmlFactory {
 
     /**
      * @param string $text Inner text
      * @param string $href Href value
-     * @return VaTools\Format\Html\Elements\HtmlLink
+     * @return Vosiz\VaTools\Format\Html\Elements\HtmlLink
      */
     public static function A(string $text, string $href = '#') {
 
@@ -29,7 +29,7 @@ trait HtmlFactory {
     /**
      * @param string $text Inner text
      * @param string $type button|submit|reset
-     * @return VaTools\Format\Html\HtmlElement
+     * @return Vosiz\VaTools\Format\Html\HtmlElement
      */
     public static function Button(string $text = '', string $type = 'button') {
 
@@ -40,7 +40,7 @@ trait HtmlFactory {
 
     /**
      * @param string $text Inner text
-     * @return VaTools\Format\Html\Elements\HtmlDivision
+     * @return Vosiz\VaTools\Format\Html\Elements\HtmlDivision
      */
     public static function Div(string $text = '') {
 
@@ -50,7 +50,7 @@ trait HtmlFactory {
     /**
      * @param int $level Heading level 1–6
      * @param string $text Inner text
-     * @return VaTools\Format\Html\Elements\HtmlHeading
+     * @return Vosiz\VaTools\Format\Html\Elements\HtmlHeading
      */
     public static function H(int $level, string $text = '') {
 
@@ -60,7 +60,7 @@ trait HtmlFactory {
     /**
      * @param string $name Input name
      * @param string $value Input value
-     * @return VaTools\Format\Html\HtmlElement
+     * @return Vosiz\VaTools\Format\Html\HtmlElement
      */
     public static function Input(string $name, string $value = '') {
 
@@ -71,7 +71,7 @@ trait HtmlFactory {
 
     /**
      * @param string $text Inner text
-     * @return VaTools\Format\Html\Elements\HtmlListItem
+     * @return Vosiz\VaTools\Format\Html\Elements\HtmlListItem
      */
     public static function Li(string $text = '') {
 
@@ -80,7 +80,7 @@ trait HtmlFactory {
 
     /**
      * @param array $items Initial items as strings
-     * @return VaTools\Format\Html\Elements\HtmlOrderedList
+     * @return Vosiz\VaTools\Format\Html\Elements\HtmlOrderedList
      */
     public static function Ol(array $items = []) {
 
@@ -89,7 +89,7 @@ trait HtmlFactory {
 
     /**
      * @param string $text Inner text
-     * @return VaTools\Format\Html\Elements\HtmlParagraph
+     * @return Vosiz\VaTools\Format\Html\Elements\HtmlParagraph
      */
     public static function P(string $text = '') {
 
@@ -99,16 +99,16 @@ trait HtmlFactory {
     /**
      * @param array $data 2D array of cell values
      * @param array|null $headers Header labels; null = no thead
-     * @return VaTools\Format\Html\Elements\HtmlTable
+     * @return Vosiz\VaTools\Format\Html\Elements\HtmlTable
      */
-    public static function Table(array $data, array $headers = null) {
+    public static function Table(array $data, ?array $headers = null) {
 
         return new HtmlTable($data, $headers);
     }
 
     /**
      * @param array $cells 1D array of cell values
-     * @return VaTools\Format\Html\Elements\HtmlTr
+     * @return Vosiz\VaTools\Format\Html\Elements\HtmlTr
      */
     public static function Tr(array $cells = []) {
 
@@ -123,7 +123,7 @@ trait HtmlFactory {
 
     /**
      * @param array $items Initial items as strings
-     * @return VaTools\Format\Html\Elements\HtmlUnorderedList
+     * @return Vosiz\VaTools\Format\Html\Elements\HtmlUnorderedList
      */
     public static function Ul(array $items = []) {
 

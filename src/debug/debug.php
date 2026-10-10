@@ -45,6 +45,17 @@ class Debugger extends \Singleton {
     }
 
     /**
+     * Removes object from seen ones (leaving its dump)
+     * @param string $hash
+     */
+    public static function RemoveSeen(string $hash) {
+
+        $index = self::$Seen->IndexOf($hash);
+        if($index !== false)
+            self::$Seen->Remove($index, true);
+    }
+
+    /**
      * Check if object has been seen (has to have some sort of GUID)
      * @param string $hash
      * @throws 
@@ -62,7 +73,7 @@ class Debugger extends \Singleton {
      */
     private static function Init() {
 
-        if(self::$Instance === NULL) {
+        if(self::$Dumper === NULL) {
             
             self::$Dumper = Dumper::GetInstance();
         }

@@ -1,9 +1,9 @@
 <?php
 
-namespace VaTools\Format\Html\Elements;
+namespace Vosiz\VaTools\Format\Html\Elements;
 
-use \VaTools\Format\Html\HtmlElement;
-use \VaTools\Format\Html\TableInvalidDimensions;
+use \Vosiz\VaTools\Format\Html\HtmlElement;
+use \Vosiz\VaTools\Format\Html\TableInvalidDimensions;
 
 class HtmlThead extends HtmlElement {
 
@@ -34,7 +34,7 @@ class HtmlTable extends HtmlElement {
      * @param array $data 2D array of cell values
      * @param array|null $headers Header labels; null = no thead
      */
-    public function __construct(array $data, array $headers = null) {
+    public function __construct(array $data, ?array $headers = null) {
 
         parent::__construct('table');
 
@@ -58,7 +58,7 @@ class HtmlTable extends HtmlElement {
      * Sets or replaces the thead — validates column count
      * @param array $headers
      * @return self
-     * @throws VaTools\Format\Html\TableInvalidDimensions
+     * @throws Vosiz\VaTools\Format\Html\TableInvalidDimensions
      */
     public function SetHeaders(array $headers) {
 
@@ -100,7 +100,7 @@ class HtmlTable extends HtmlElement {
      * Appends a HtmlTr to tbody — validates column count
      * @param HtmlTr $tr
      * @return self
-     * @throws VaTools\Format\Html\TableInvalidDimensions
+     * @throws Vosiz\VaTools\Format\Html\TableInvalidDimensions
      */
     public function AddRow(HtmlTr $tr) {
 
@@ -116,7 +116,7 @@ class HtmlTable extends HtmlElement {
      * Creates HtmlTr with HtmlTd children from a 1D array
      * @param array $row
      * @return HtmlTr
-     * @throws VaTools\Format\Html\TableInvalidDimensions
+     * @throws Vosiz\VaTools\Format\Html\TableInvalidDimensions
      */
     private function MakeRow(array $row) {
 

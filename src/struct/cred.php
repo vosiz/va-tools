@@ -28,7 +28,7 @@ class Credentials {
      */
     public function Auth(string $user, string $pass) {
 
-        if($user === $this->User && $pass === $this->Password)
+        if($user === $this->User && hash_equals($this->Password, $pass))
             return true;
 
         return false;
@@ -41,6 +41,15 @@ class Credentials {
 
         if($this->Protection)
             return self::PROT_PASS_PLACEH;
+
+        return $this->Password;
+    }
+
+    /**
+     * Returns real password, protection or not
+     * @return string
+     */
+    public function RevealPassword() {
 
         return $this->Password;
     }

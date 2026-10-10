@@ -28,7 +28,7 @@ class NodeHierarchy {
      * @param string $name Identifaction
      * @param NodeHierarchy $parent Parent node (null means it will be root)
      */
-    protected function __construct(string $name, NodeHierarchy $parent = NULL) {
+    protected function __construct(string $name, ?NodeHierarchy $parent = NULL) {
 
         $this->Name = $name;
         $this->Root = $this;
@@ -38,7 +38,7 @@ class NodeHierarchy {
             $this->Root = $parent->Root;
         }
          
-        $this->Guid = com_create_guid();
+        $this->Guid = \guid();
     }
 
     /** 
@@ -74,7 +74,7 @@ class NodeHierarchy {
         foreach($nodes as $node) {
 
             if(!$node instanceof NodeHierarchy)
-                throw new NodeHierarchyException("Node is not NodeHierarchy type, found: $node->__toString()");
+                throw new NodeHierarchyException("Node is not NodeHierarchy type, found: {$node->__toString()}");
 
             $this->AddChild($node);
         }
@@ -131,7 +131,7 @@ class NodeHierarchy {
      * @param NodeHierarchy $parent parent node, NULL if root
      * @return NodeHierarchy
      */
-    public static function Create(string $name, NodeHierarchy $parent = NULL) {
+    public static function Create(string $name, ?NodeHierarchy $parent = NULL) {
 
         return new NodeHierarchy($name, $parent);
     }

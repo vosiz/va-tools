@@ -60,7 +60,7 @@ function TestRetval_CreateSpecificsLiteral() {
     $all[] = Retval::Warning($fmt, $par);
     $all[] = Retval::Fail($fmt, $par);
     $all[] = Retval::Error($fmt, $par);
-    $all[] = Retval::Gatal($fmt, $par);
+    $all[] = Retval::Fatal($fmt, $par);
     $all[] = Retval::Exception($fmt, $par);
     $all[] = Retval::Debug($fmt, $par);
     $all[] = Retval::Fakup($fmt, $par);

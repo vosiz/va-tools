@@ -1,9 +1,9 @@
 <?php
 
-namespace VaTools\Format;
+namespace Vosiz\VaTools\Format;
 
 use \Vosiz\Utils\Collections\Dictionary;
-use \VaTools\Format\Html\HtmlElement as Element;
+use \Vosiz\VaTools\Format\Html\HtmlElement as Element;
 
 require_once(__DIR__.'/inc.php');
 require_once(__DIR__.'/factory.php');
@@ -21,7 +21,7 @@ class HtmlBuilder extends XmlBuilder {
      * @param string $tag Tag name
      * @param string $text Inner text
      * @param mixed $id Guid
-     * @return VaTools\Format\Html\HtmlElement
+     * @return Vosiz\VaTools\Format\Html\HtmlElement
      */
     public static function CreateElement(string $tag, string $text = '', $id = null) {
 
@@ -48,7 +48,7 @@ class HtmlBuilder extends XmlBuilder {
 
     /**
      * Add element(s) to head
-     * @param VaTools\Format\Html\HtmlElement|VaTools\Format\Html\HtmlElement[] $el
+     * @param Vosiz\VaTools\Format\Html\HtmlElement|Vosiz\VaTools\Format\Html\HtmlElement[] $el
      * @return self
      */
     public function AddToHead($el) {
@@ -61,7 +61,7 @@ class HtmlBuilder extends XmlBuilder {
 
     /**
      * Add element(s) to body
-     * @param VaTools\Format\Html\HtmlElement|VaTools\Format\Html\HtmlElement[] $el
+     * @param Vosiz\VaTools\Format\Html\HtmlElement|Vosiz\VaTools\Format\Html\HtmlElement[] $el
      * @return self
      */
     public function AddToBody($el) {

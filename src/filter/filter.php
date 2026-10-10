@@ -45,7 +45,7 @@ abstract class DataFilter implements IDataFilter {
      * Prints raw input data
      * @param string $fmt print format
      */
-    public function ListAll(string $fmt = "[%s]: %s</br>") {
+    public function ListAll(string $fmt = "[%s]: %s<br>") {
 
         $this->PrintItems($this->Data->ToArray(), $fmt);
     }
@@ -54,7 +54,7 @@ abstract class DataFilter implements IDataFilter {
      * Prints filtered data
      * @param string $fmt print format
      */
-    public function ListFiltered(string $fmt = "[%s]: %s</br>") {
+    public function ListFiltered(string $fmt = "[%s]: %s<br>") {
 
         $this->PrintItems($this->Filtered->ToArray(), $fmt);
     }
@@ -63,7 +63,7 @@ abstract class DataFilter implements IDataFilter {
      * Prints refereces between entries
      * @param string $fmt print format
      */
-    public function ListRefs(string $fmt = "%s refs %s</br>") {
+    public function ListRefs(string $fmt = "%s refs %s<br>") {
 
         $this->PrintItems($this->References->ToArray(), $fmt);
     }
@@ -109,9 +109,9 @@ abstract class DataFilter implements IDataFilter {
             }
             //$this->ListRefs();
 
-        } catch(Exception $exc) {
+        } catch (\Exception $exc) {
 
-            throw new FilterException("Failed to execute filter $handler->__toString() with error: $exc->getMessage()");
+            throw new FilterException("Failed to execute filter with error: {$exc->getMessage()}");
         }
     }
 
@@ -129,7 +129,7 @@ abstract class DataFilter implements IDataFilter {
             throw new FilterException("Invalid allowed types definition, variable is not array");
 
         // no check needed
-        if($allowed_types = [NULL])
+        if($allowed_types == [NULL])
             return;
 
         foreach($this->Data->ToArray() as $item) {
@@ -164,7 +164,7 @@ abstract class DataFilter implements IDataFilter {
      * @param array $data array to print
      * @param string $fmt format string
      */
-    protected function PrintItems(array $data = array(), string $fmt) {
+    protected function PrintItems(array $data, string $fmt) {
 
         foreach($data as $key => $item) {
 

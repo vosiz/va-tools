@@ -1,6 +1,6 @@
 <?php
 
-namespace VaTools\Format\Xml;
+namespace Vosiz\VaTools\Format\Xml;
 
 use \Vosiz\Utils\Collections\Dictionary;
 
@@ -27,7 +27,7 @@ class XmlAttribute {
 
             } else {
 
-                $prints[] = sprintf('%s="%s"', $a->GetName(), implode(' ', $vals));
+                $prints[] = sprintf('%s="%s"', $a->GetName(), htmlspecialchars(implode(' ', $vals), ENT_COMPAT, 'UTF-8'));
             }
             
         }
@@ -56,10 +56,11 @@ class XmlAttribute {
      * Constructor
      * @param string $name Attribute name
      * @param array $values Attributte values
+     * @throws XmlException
      */
     public function __construct(string $name, array $values = []) {
 
-        $this->Name = $name;
+        $this->Name = XmlElement::CheckName($name);
         $this->Values = new Dictionary($values);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace VaTools\Format\Html\Elements;
+namespace Vosiz\VaTools\Format\Html\Elements;
 
 class HtmlOrderedList extends HtmlList {
 

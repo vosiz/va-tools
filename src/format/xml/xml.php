@@ -1,23 +1,25 @@
 <?php
 
-namespace VaTools\Format;
+namespace Vosiz\VaTools\Format;
 
 use \Vosiz\Utils\Collections\Dictionary;
 
+require_once(__DIR__.'/exc.php');
 require(__DIR__.'/core/element.php');
-use \VaTools\Format\Xml\XmlElement as Element;
+use \Vosiz\VaTools\Format\Xml\XmlElement as Element;
 require(__DIR__.'/core/attribute.php');
-use \VaTools\Format\Xml\XmlAttribute as Attribute;
+use \Vosiz\VaTools\Format\Xml\XmlAttribute as Attribute;
 
 class XmlBuilder {
 
-    protected $Root;        public function GetRoot()       { return $this->Root;       }
-    protected $Elements;    public function GetElements()   { return $this->Elements;   }
+    protected $Root;                public function GetRoot()           { return $this->Root;           }
+    protected $Elements;            public function GetElements()       { return $this->Elements;       }
+    protected $Declaration = true;  public function GetDeclaration()    { return $this->Declaration;    }   public function SetDeclaration(bool $on)    { $this->Declaration = $on; return $this;   }
 
     /**
      * Creates Root element
      * @param string $root_name Root node name
-     * @return VaTools\Format\Xml\XmlElement
+     * @return Vosiz\VaTools\Format\Xml\XmlElement
      */
     public static function CreateRoot(string $root_name = 'xml') {
 
@@ -28,8 +30,8 @@ class XmlBuilder {
      * Creates element
      * @param string $name Element id
      * @param string $text Inner text
-     * @param mixed $id Guid
-     * @return VaTools\Format\Xml\XmlElement
+     * @param mixed $id Guid, compared as collection key (my_id and MyId are the same)
+     * @return Vosiz\VaTools\Format\Xml\XmlElement
      */
     public static function CreateElement(string $name, string $text = '', $id = null) {
 
@@ -40,7 +42,7 @@ class XmlBuilder {
      * Creates atribute
      * @param string $name Attribute id
      * @param array $values Attribute values
-     * @return VaTools\Format\Xml\XmlAtribute
+     * @return Vosiz\VaTools\Format\Xml\XmlAtribute
      */
     public static function CreateAttribute(string $name, array $values = []) {
 
@@ -62,7 +64,7 @@ class XmlBuilder {
 
     /**
      * Set new root element
-     * @param VaTools\Format\Xml\XmlElement $root New root node
+     * @param Vosiz\VaTools\Format\Xml\XmlElement $root New root node
      */
     public function SetRoot(Element $root) {
 
@@ -72,12 +74,12 @@ class XmlBuilder {
     }
 
     /**
-     * Renders xml document
+     * Renders xml document, with XML declaration unless switched off
      * @return string Xml document as string
      */
     public function Render() {
 
-        $s = '';
+        $s = $this->Declaration ? '<?xml version="1.0" encoding="UTF-8"?>'."\n" : '';
         foreach($this->Elements as $el) {
 
             $s .= $el->Render();
@@ -86,28 +88,4 @@ class XmlBuilder {
         return $s;
     }
 
-
-    /** TODO:
-     * Add children node
-     * @param VaTools\Format\Xml\XmlElement $el 
-     */
-    private function AddChild(Element $el) {
-
-        foreach($el->GetChildren() as $c) {
-
-            $this->Add($c);
-            if($c->ChildrenCount())
-                $this->AddChild();
-        }
-    }
-
-    /**
-     * Add new element
-     * @param VaTools\Format\Xml\XmlElement $el Element to add
-     */
-    private function Add(Element $el) {
-
-        $this->Elements->Add($el, $el->GetGuid(), true);
-    }
-    
 }
