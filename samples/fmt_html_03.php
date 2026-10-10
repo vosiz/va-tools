@@ -1,8 +1,8 @@
 <?php
 
-use \VaTools\Format\HtmlBuilder as Html;
-use \VaTools\Format\Html\HtmlException;
-use \VaTools\Format\Html\TableInvalidDimensions;
+use \Vosiz\VaTools\Format\HtmlBuilder as Html;
+use \Vosiz\VaTools\Format\Html\HtmlException;
+use \Vosiz\VaTools\Format\Html\TableInvalidDimensions;
 
 // table with headers and data
 // expected: <table><thead><tr><th>Name</th><th>Age</th></tr></thead><tbody><tr><td>Alice</td><td>30</td></tr><tr><td>Bob</td><td>25</td></tr></tbody></table>

@@ -11,7 +11,7 @@ require_once(__DIR__.'/query.php');
 
 class DbConnectionConfig {
 
-    private $Dsn;           public function GetDsn()        { return $this->Dns;        }
+    private $Dsn;           public function GetDsn()        { return $this->Dsn;        }
     private $Credentials;   public function GetCredentials(){ return $this->Credentials;}
     private $Atts;          public function GetAtts()       { return $this->Atts;       }
 
@@ -20,7 +20,7 @@ class DbConnectionConfig {
      */
     public function __construct(string $dsn, Credentials $creds) {
 
-        $this->Dns = $dsn;
+        $this->Dsn = $dsn;
         $this->Credentials = $creds;
         $this->Atts = new Dictionary();
     }
@@ -68,7 +68,7 @@ class DbConnectionInfo {
 
         } catch (\Exception $exc) {
 
-            throw new DbException("DB connection info creation failed: %s", $exc->getMessage());
+            throw DbException::CreateInner($exc, "DB connection info creation failed: %s", $exc->getMessage());
         }
     }
 
@@ -129,7 +129,8 @@ class DbConnection {
 
         try {
 
-            $this->pdo = new \PDO($cfg->GetDsn(), $cfg->GetCredentials()->GetUser(), $cfg->GetCredentials()->GetPassword());
+            $this->pdo = new \PDO($cfg->GetDsn(), $cfg->GetCredentials()->GetUser(), $cfg->GetCredentials()->RevealPassword());
+            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             foreach($cfg->GetAtts()->ToArray() as $id => $att) {
 
                 $this->pdo->setAttribute($id, $att);
@@ -137,16 +138,16 @@ class DbConnection {
 
         } catch(\PDOException $exc) {
 
-            if (preg_match('/\[(\d+)\]/', $exc->getMessage(), $m) && $m[1] == 1049) {
+            if($this->IsDbMissing($exc)) {
 
                 throw new DbNotFoundException($cfg->GetDsn());
             }
 
-            throw new DbException($exc->getMessage());
+            throw DbException::CreateInner($exc, $exc->getMessage());
 
         } catch(\Exception $exc) {
 
-            throw new DbException($exc->getMessage());
+            throw DbException::CreateInner($exc, $exc->getMessage());
         }
         
     }
@@ -163,11 +164,44 @@ class DbConnection {
 
             return new QueryBuilder($this->pdo, $table);
             
+        } catch (DbException $exc) {
+
+            throw $exc;
+
         } catch (\Exception $exc) {
 
-            throw new DbException($exc->getMessage());
+            throw DbException::CreateInner($exc, $exc->getMessage());
         }
         
+    }
+
+    /**
+     * Returns last inserted ID
+     * @return int
+     */
+    public function LastInsertId() {
+
+        return (int)$this->pdo->lastInsertId();
+    }
+
+    /**
+     * Executes raw SQL with optional parameters
+     * @param string $sql
+     * @param array $params
+     * @return bool
+     * @throws DbException
+     */
+    public function Raw(string $sql, array $params = []) {
+
+        try {
+
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute($params);
+
+        } catch(\PDOException $exc) {
+
+            throw DbException::CreateInner($exc, $exc->getMessage());
+        }
     }
 
     /**
@@ -180,13 +214,13 @@ class DbConnection {
         try {
 
             if(!$this->CheckConn())
-                throw new DbConnection("Connection check FALSE");
+                throw new DbException("Connection check FALSE");
 
             return new DbConnectionInfo($this->pdo);
 
         } catch(\Exception $exc) {
 
-            throw new DbException("Connection failed: %s", $exc->getMessage());
+            throw DbException::CreateInner($exc, "Connection failed: %s", $exc->getMessage());
         }
         
     }
@@ -206,8 +240,22 @@ class DbConnection {
 
         } catch(\Exception $exc) {
 
-            throw new DbException("Connection check failed");
+            throw DbException::CreateInner($exc, "Connection check failed");
         }
 
+    }
+
+    /**
+     * Checks if exception says the database does not exist
+     * @param \PDOException $exc
+     * @return bool
+     */
+    private function IsDbMissing(\PDOException $exc) {
+
+        // driver error code, message parsing only when driver gives none
+        if(isset($exc->errorInfo[1]))
+            return $exc->errorInfo[1] == 1049;
+
+        return preg_match('/\[(\d+)\]/', $exc->getMessage(), $m) && $m[1] == 1049;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use \VaTools\Format\HtmlBuilder as Html;
+use \Vosiz\VaTools\Format\HtmlBuilder as Html;
 
 // void element — no self-closing, no closing tag
 // expected: <br>

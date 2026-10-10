@@ -1,8 +1,8 @@
 <?php
 
-namespace VaTools\Format\Html\Elements;
+namespace Vosiz\VaTools\Format\Html\Elements;
 
-use \VaTools\Format\Html\HtmlElement;
+use \Vosiz\VaTools\Format\Html\HtmlElement;
 
 class HtmlList extends HtmlElement {
 
@@ -26,6 +26,7 @@ class HtmlList extends HtmlElement {
      */
     public function SetFirst(HtmlListItem $item) {
 
+        $item->Detach();
         $item->Parent = $this;
 
         $old = [];

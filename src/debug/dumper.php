@@ -40,7 +40,7 @@ class DebugDumperSettings {
             $this->Callback = $callback;
             $this->Separator = $sep;
 
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
 
             throw $exc;
         }
@@ -131,6 +131,10 @@ class Dumper extends \Singleton {
             $this->DumpScalar($var, $level, $parent);
         }
 
+        // seen only on its own nesting path
+        if($hash !== NULL)
+            Debugger::RemoveSeen($hash);
+
     }
 
     /**
@@ -182,7 +186,7 @@ class Dumper extends \Singleton {
             $this->Render($this->Tabing($lvl), false);
 
         $this->Render($this->DumpFormat("SmartObject: %s %s", 
-            $var->ToString(),
+            $this->Escape($var->ToString()),
             $this->ShortHash($var->GetHash())
         ));
         $lvl++;
@@ -209,10 +213,10 @@ class Dumper extends \Singleton {
 
             $this->Render($this->Tabing($lvl), false);
 
-            $this->Render($this->DumpFormat("[%s] %s = ", $type, $name), false);
+            $this->Render($this->DumpFormat("[%s] %s = ", $type, $this->Escape($name)), false);
             $this->DumpItem($value, $lvl);
 
-        } catch(Exception $exc) {
+        } catch (\Exception $exc) {
 
             throw $exc;
         }
@@ -229,7 +233,7 @@ class Dumper extends \Singleton {
 
         if($parent !== NULL)
             $this->Render($this->Tabing($lvl), false);
-        $this->Render($this->DumpFormat("[%s] => ", $key), false);
+        $this->Render($this->DumpFormat("[%s] => ", $this->Escape($key)), false);
         $this->DumpItem($value, $lvl);
     }
 
@@ -244,7 +248,7 @@ class Dumper extends \Singleton {
         if($parent !== NULL)
             $this->Render($this->Tabing($lvl), false);
 
-        $this->Render($this->DumpFormat("%s (%s)", $var, typeof($var)));
+        $this->Render($this->DumpFormat("%s (%s)", $this->Escape($var), typeof($var)));
     }
 
     /**
@@ -258,7 +262,7 @@ class Dumper extends \Singleton {
         if($parent !== NULL)
             $this->Render($this->Tabing($lvl), false);
 
-        $this->Render($this->DumpFormat("Object: %s", method_exists($var, '__toString') ? $var->__toString() : typeof($var)));
+        $this->Render($this->DumpFormat("Object: %s", $this->Escape(method_exists($var, '__toString') ? $var->__toString() : typeof($var))));
         $lvl++;
         foreach(\getprops($var) as $prop) {
 
@@ -297,6 +301,16 @@ class Dumper extends \Singleton {
     }
 
     /**
+     * Escapes dumped value for browser output
+     * @param mixed $value
+     * @return string
+     */
+    private function Escape($value) {
+
+        return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
      * Separator rendering
      * @param int $level repeating separator
      * @return string
@@ -330,12 +344,12 @@ class Dumper extends \Singleton {
     }
 
     /**
-     * Default broswer based rendering (echo + </br>)
+     * Default broswer based rendering (echo + <br>)
      * @param string $str what to show
      */
     private function DefaultRender(string $str, $nl) {
 
-        echo sprintf("%s%s", $str, $nl ? "</br>" : "");
+        echo sprintf("%s%s", $str, $nl ? "<br>" : "");
     }
 
     /**

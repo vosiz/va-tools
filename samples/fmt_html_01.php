@@ -1,6 +1,6 @@
 <?php
 
-use \VaTools\Format\HtmlBuilder as Html;
+use \Vosiz\VaTools\Format\HtmlBuilder as Html;
 
 // full document render — DOCTYPE + html/head/body skeleton
 function TestFmtHtml_Document() {

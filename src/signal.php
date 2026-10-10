@@ -89,7 +89,7 @@ class SignalType extends Enum {
 
         $vals = [
             'unknown'   => 0x00,
-            'possitive' => 0x10,
+            'positive'  => 0x10,
             'neutral'   => 0x20,
             'negative'  => 0x30,
             'special'   => 0x40,

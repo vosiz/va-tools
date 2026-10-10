@@ -7,7 +7,7 @@ use Vosiz\Utils\Collections\Collection;
 class Existance extends DataFilterQueryHandler {
 
     /**
-     * Check existence in data defined by params
+     * Check existence in data defined by params, value of the same type only ('5' does not find 5)
      * @param Collection $data collection where to look
      * @param array $params parameters
      * @return Collection (altered input)

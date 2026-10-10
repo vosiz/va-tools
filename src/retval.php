@@ -19,7 +19,7 @@ class RetvalType extends Enum {
             'unknown'   => Signal::Create('unknown', 'unknown')->GetValue(),
 
             // Success
-            'success'   => Signal::Create('possitive', 'moderate')->GetValue(),
+            'success'   => Signal::Create('positive', 'moderate')->GetValue(),
             
             // Neutral
             'notice'    => Signal::Create('neutral', 'faint')->GetValue(),
@@ -43,9 +43,9 @@ class RetvalType extends Enum {
 
 class Retval extends \SmartObject {
 
-    private $Type;
-    private $Message;
-    private $TypeEnum;
+    private $Type;      public function GetTypeName()   { return $this->Type;       }
+    private $Message;   public function GetMessage()    { return $this->Message;    }
+    private $TypeEnum;  public function GetTypeEnum()   { return $this->TypeEnum;   }
 
     // Specific literal instances
     public static function Success(string $fmt, ...$args)   { return self::Create('success', $fmt, ...$args);   }
@@ -54,7 +54,7 @@ class Retval extends \SmartObject {
     public static function Warning(string $fmt, ...$args)   { return self::Create('warning', $fmt, ...$args);   }
     public static function Fail(string $fmt, ...$args)      { return self::Create('fail', $fmt, ...$args);      }
     public static function Error(string $fmt, ...$args)     { return self::Create('error', $fmt, ...$args);     }
-    public static function Gatal(string $fmt, ...$args)     { return self::Create('fatal', $fmt, ...$args);     }
+    public static function Fatal(string $fmt, ...$args)     { return self::Create('fatal', $fmt, ...$args);     }
     public static function Exception(string $fmt, ...$args) { return self::Create('exception', $fmt, ...$args); }
     public static function Debug(string $fmt, ...$args)     { return self::Create('debug', $fmt, ...$args);     }
     public static function Fakup(string $fmt, ...$args)     { return self::Create('fakup', $fmt, ...$args);     }
@@ -66,7 +66,7 @@ class Retval extends \SmartObject {
      */
     public static function Create(string $type, string $fmt, ...$args) {
 
-        return new Retval(RetvalType::GetEnum($type), sprintf($fmt, ...$args));
+        return new Retval(RetvalType::GetEnum($type), empty($args) ? $fmt : sprintf($fmt, ...$args));
     }
 
     /**

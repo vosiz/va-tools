@@ -16,17 +16,14 @@ class DataFilterQueryCommandTranslation {
      * Translate string to query command
      * @param string $command string to translate
      * @return string Command name function
+     * @throws FilterException
      */
     public static function Translate(string $command) {
 
-        try {
-
-            return self::$CommandTranslations[$command];
-
-        } catch (Exception $exc) {
-
+        if(!isset(self::$CommandTranslations[$command]))
             throw new FilterException("Command $command cannot be translated to query handler");
-        }
+
+        return self::$CommandTranslations[$command];
     }
 }
 
@@ -57,9 +54,9 @@ abstract class DataFilterQueryHandler {
 
             return $this->{\str_camel($this->Command)}($data, $this->Pars);
 
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
 
-            throw new FilterException("Failed to execute command in QueryHandler: $exc->__toString()");
+            throw new FilterException("Failed to execute command in QueryHandler: {$exc->__toString()}");
         }
 
         
